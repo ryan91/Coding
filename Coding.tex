@@ -1,0 +1,35 @@
+\documentclass{uni_tue_template}
+
+% content of left head area e.g. subject like ETI
+\def \headLeft{Coding Skript}
+
+% content of center head area, used for names
+\def \names{David Morgenstern \& Yannick Runge}
+
+% content of right head area e.g. semester like WiSe 2012/13
+\def \headRight{2013/2014}
+
+\newboolean{boolean}
+\setboolean{boolean}{false}
+
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{color}
+
+\title{Coding und Verschlüsselung Prof. Hauck}
+\author{David Morgenstern \& Yannick Runge}
+
+\begin{document}
+\ifthenelse{\boolean{boolean}}{
+	\thispagestyle{empty}
+	\maketitle
+	\tableofcontents
+	\thispagestyle{empty}
+	\cleardoublepage
+	\setcounter{page}{1}
+	\foreach \inputpage in {1,...,8} {
+		\input{Coding_C\inputpage}
+	}
+}{}
+\input{Coding_C1}
+\end{document}
