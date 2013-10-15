@@ -1,0 +1,7 @@
+# ignore everything except for LaTeX files
+*.pdf
+*.log
+*.swp
+*.aux
+*.out
+*.synctex.gz
