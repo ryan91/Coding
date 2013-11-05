@@ -157,3 +157,88 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		$n=64$. Wie viele invertierbare Matritzen $(64\times 64)$ über $\mz_8$ gibt es?\\
 		$(2^{64}-1)(2^{64}-2)\dots(2^{64}-2^{63})\approx 0,29\cdot 2^{4061}$\\
 		(Groß, aber winzig im Vergleich zu $\lrr{2^{64}}!\approx 2^{10^{21}}$)
+		
+		Blockchiffren über $\mz_k$, Blocklänge $n$.\\
+		$m\in\lrr{\mz_k}^n$, Schlüssel $A$ $n\times n$-Matrix über $\mz_k$ $m\rightarrow mA=c$.\\
+		$A$ invertierbar $\Leftrightarrow \ggT(\det(A), k)=1$\\
+		$\det\lrv{a&b\\c&d}=a\cdot b-b\cdot c$
+	\subsection{Known-Plaintext-Angriff auf lineare Chiffren}
+		Benötigt $n \underset{m_1,\dots,m_n}{\mbox{Klartextblöcke}}$ und zugehörige $\underset{c_1,\dots,c_n}{\mbox{Chiffretextblöcke}}$\\
+		$m_iA=c_i$\\
+		$A$ ist unbekannt. Möglich, falls die Matrix $M=\lrv{m_1\\\vdots\\m_n}$ invertierbar ist.\\
+		(Sicherstellbar bei Chosen-Plaintext-Angriff)\\
+		Setze $C=\lrv{c_1\\\vdots\\c_n}$. Dann gilt $M\cdot A=C$\\
+		Der Angreifer berechnet $M^{-1}$. $M^{-1}\cdot C = M^{-1}\lrr{MA}=E_n\cdot A = A$
+		
+		\textbf{Beispiel}
+		
+		$n=2\quad k=26$\\
+		Angenommen wir wissen: KRYPTO ist mit einer linearen Chiffre $\lrr{n=2,\mz_{26}}$ in QLIPRL verschlüsselt worden.
+		
+		\begin{tabular}{rr|rr|rr}
+			K&R&Y&P&T&O\\
+			10&17&24&15&19&14\\
+			\multicolumn{2}{c|}{$m_1$}&\multicolumn{2}{c|}{$m_2$}&\multicolumn{2}{c}{$m_3$}
+		\end{tabular}
+		$\qquad \rightarrow\qquad$
+		\begin{tabular}{rr|rr|rr}
+			Q&L&I&P&R&L\\
+			16&11&8&15&17&11\\
+			\multicolumn{2}{c|}{$c_1$}&\multicolumn{2}{c|}{$c_2$}&\multicolumn{2}{c}{$c_3$}
+		\end{tabular}
+		
+		$\underset{2|\det M, 2|26}{M = \lrv{m_1\\m_2}=\lrv{10&17\\24&15}}$ funktioniert nicht.\\
+		$M=\lrv{m_1\\m_3}=\lrv{10&17\\19&14}$\\
+		$\det M = 10\cdot 14 - 17\cdot 10 \mod 26 = 25\quad\rightarrow$ teilerfremd zu $26$.
+		
+		$\lrr{\det M}^{-1} = 25\lrr{=-1\mod 26}$\\
+		$M^{-1} = -\lrv{14&-17\\-19&10} = \lrv{-14&17\\19\\-10}=\lrv{12&17&19&16}$\\
+		$C=\lrv{c_1\\c_3}=\lrv{16&11\\17&11}$\\
+		$A=M^{-1}\cdot C = \lrv{12&17\\19&16}\cdot\lrv{16&11\\17&11}=\lrv{481&319\\576&385}=\underset{\mod 26}{\lrv{13&7\\4&21}}$
+		
+		Test:\\
+		$\lrv{10&17}\cdot\lrv{13&7\\4&21}=\lrv{198&427}=\lrr{16,11}$\\
+		$\lrv{24&15}\cdot\lrv{13&7\\4&21}=\lrv{372&483}=\lrr{8,15}$\\
+		$\lrv{19&14}\cdot\lrv{13&7\\4&21}=\lrr{17,11}$
+	\subsection{Bemerkung}
+		Häufig werden zur Erhöhung der Sicherheit mehrere Blockchiffrierungen hintereinander aungewendet.\\
+		Das ist nicht immer sinnvoll:\\
+		z.B.: $2$ lineare Chiffren mit $2$ Schlüsseln $A_1,A_2$ hintereinander ausführen.\\
+		$m\rightarrow\underbrace{\lrr{A_2A_1}}_{n\times n} m \quad \rightarrow\quad$ Chiffretext vom selben Typ. (Mit Matrix $A_2,A_1$)
+\section{Der Advanced Encryption Standard (AES)}
+	Anfang der 1970'er Jahre: DES Blocklänge $64$ Bit mit Schlüssellänge $56$ Bit\\
+	Ab 1990'er Jahre war Brute-Force möglich.\\
+	NIST öffentliche Ausschreibung $\rightarrow$	2000 Rijndael-Verfahren (J.Daemen, V.Rijmen) $\rightarrow$ AES\\
+	2002: FIPS 197
+	\subsection{Struktur des AES}
+		AES ist eine iterierte Blockchiffre\\
+		Blocklänge $\underline{128},192,256$ Bit\\
+		Schlüssell. $\underline{128},192,256$ Bit\\
+		$\underline{10},12,14$ Runden\\
+		Zwischenergebnisse werden Zustände (states) genannt.
+		
+		Jede Runde (bis auf 10.) besteht aus 3 Transfusionen und Rundenschlüsseladdition
+		%TODO: Bild
+		Klar- und Chiffretextblöcke und States werden beschreieben durch $4\times 4$ - Matrizen.\\
+		$a_ij$ Bytes $\lrv{a_{00}&\dots&a_{03}\\\vdots&&\vdots\\a_{30}&\dots&a_{33}}\hat{=} 128$ Bit $\hat{=} a_{00}a_{10}a_{20}a_{30}a_{01}a_{11}$\\
+		Gelegentlich werden Bytes als Elemente in einem Körper der Ordnung $2^8$ $\mathbb{F}_{2^8}$ aufgefasst.
+	\subsection{Der Körper $\mathbb{F}_{2^8}$}
+		$\mathbb{F}_{2^8}$ = Menge aller Polynome über $\mz_2$ vom Grad $<8$\\
+		$\lrr{b_7,b_6,b_5,\dots,b_0}\leftrightarrow b_7x^7+b_6x^6+\dots+b_1x+b_0$\\
+		Addition: koffizientenweise in $\mz_2$\\
+		Multiplikation: Multiplikation normal, reduziere $\mod$ \textbf{irreduzieble} Polynome vom Grad $8$.\\
+		irreduziebles Polynom $x^8+x^4+x^3+x+1$\\
+		$\lrr{10000011}\odot\lrr{00001010}$\\
+		$x^7+x+1\odot x^3+x$\\
+		$\lrr{x^7+x+1}\cdot\lrr{x^3+x}=x^{10}+x^4+x^3+x^8+x^2+x$ reduziert $\mod h$ \\
+		$x^{10}+x^8+x^4+x^3+x^2+x : x^8+x^4+x^3+x+1=x^2$\\
+		$-\lrr{x^{10}+x^6+x^5+x^3+x^2}$\\
+		$x^8+x^6+x^5+x^4+x$\\
+		$-\lrr{x^8+x^4+x^3+x+1}$\\
+		$x^6+x^5+x^3+1 =\lrr{x^7+x+1}\odot\lrr{x^3+x}$\\
+		$\lrr{01101001}$
+		
+		$g\neq 0$\\
+		$g\odot g^{-1} =1$\\
+		$s\cdot g + t\cdot h=1$\\
+		$s\mod h = g^{-1}$
