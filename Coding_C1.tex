@@ -1,6 +1,8 @@
 \newpage
-\section{Kryptologie}
-% TODO: 2 Teile im Pdf?
+\begin{center}
+	\huge{Kryptologie}
+\end{center}
+%TODO 2 Teile im Pdf?
 \section{Grundbegriffe und einfache Verfahren}
 	\includegraphics[width=\textwidth]{eps/pic01.eps}
 
@@ -222,7 +224,7 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		Klar- und Chiffretextblöcke und States werden beschreieben durch $4\times 4$ - Matrizen.\\
 		$a_ij$ Bytes $\lrv{a_{00}&\dots&a_{03}\\\vdots&&\vdots\\a_{30}&\dots&a_{33}}\hat{=} 128$ Bit $\hat{=} a_{00}a_{10}a_{20}a_{30}a_{01}a_{11}$\\
 		Gelegentlich werden Bytes als Elemente in einem Körper der Ordnung $2^8$ $\mathbb{F}_{2^8}$ aufgefasst.
-	\subsection{Der Körper $\mathbb{F}_{2^8}$}
+	\subsection{Der Körper \texorpdfstring{$\mathbf{\mathbb{F}_{2^8}}$}{F}}
 		$\mathbb{F}_{2^8}$ = Menge aller Polynome über $\mz_2$ vom Grad $<8$\\
 		$\lrr{b_7,b_6,b_5,\dots,b_0}\leftrightarrow b_7x^7+b_6x^6+\dots+b_1x+b_0$\\
 		Addition: koffizientenweise in $\mz_2$\\
@@ -242,3 +244,77 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		$g\odot g^{-1} =1$\\
 		$s\cdot g + t\cdot h=1$\\
 		$s\mod h = g^{-1}$
+		
+		In $\mz_2\lra{x}$ gilt der Erweiterte Euklidische Algorithmus.\\
+		$f,g\neq 0$ Bestimme $u,v\in\mz_2\lra{x}:\ggT\lrr{f,g}=u\cdot f+v\cdot g$\\
+		$f\in\mathcal{F}_{2^8}\quad f^{-1}$ bezüglich $\odot$\\
+		$1=\ggT(f,\underbrace{h}_{\mbox{\scriptsize irred.}}) = u\cdot h+v\cdot f$\\
+		$1=\lrr{u\cdot h+v\cdot f}\mod h=\lrr{v\cdot f}\mod h=\lrr{\lrr{v\mod h}\cdot f}\mod h$
+		
+		\textbf{(Verkürzter) erweiterter Euklidischer Algorithmus in }$\mathbf{\mz_2\lra{x}}$
+		
+		Sei $f,g\in \mz_2\lra{x}\quad g\neq 0\quad \grad\lrr{f}\geq\grad\lrr{g}$\\
+		Bestimme $v\in\mz_2\lra{x}$ mit $v\cdot g\equiv\ggT\lrr{f,g}\;\;\lrr{\mod f}$
+		\subExBegin{(1)}
+			\item Setze $s(x)=f(x),t(x)=g(x)$\\
+				$v_1(x)=0,v_2(x)=1,v(x)=1$
+			\item Solange $s(x)\mod t(x)\neq 0$ wiederhole:\\
+				$q(x) =s(x)\div t(x), r(x)=s(x)\mod t(x)$\\
+				$v(x)=v_1(x)-q(x)\cdot v_2(x)$\\
+				$v_1(x)=v_2(x)\quad v_2(x)=v(x)\quad s(x)=t(x)\quad t(x)=r(x)$
+			\item Ausgabe: $t(x) =\ggT\lrr{f,g}$\\
+				$v(x)=v\cdot g$
+		\subExEnd
+		Es gilt $\lrr{g+f}^{-1}\neq g^{-1}+f^{-1}$
+	\subsection{SubBytes-Transformation}
+		(Sub für Substitution)\\
+		Eingabe: Zustand $S_i=\lrv{b_{00}&\dots&b_{03}\\\vdots&&\vdots\\b_{30}&\dots&b_{33}}\quad b_{ij}$ Bytes.\\
+		Jedes Byte wird einzeln verschlüsselt.\\
+		$g=\lrr{b_7,b_6,\dots,b_0}$ Byte
+		\subExBegin{(1)}
+			\item Fasse $g$ als Element in $\mathbb{F}_{2^8}$ auf.\\
+				Falls $g\neq 0$ ist, bilde $g^{-1}$\\
+				Falls $g=0$ ist, so lasse $g$ unverändert.
+			\item Ergebnis $\lrr{C_7,C_6,\dots,C_0}$ wird affin-linear abgebildet.\\
+				$\lrr{c_0c_1\dots c_7} A+B=\lrr{d_0\dots d_7}$\\
+				Das Ergebnis von SubBytes ist $\lrr{d_7d_6\dots d_0}$.\\
+				Dabei gilt $A=\lrv{11111000\\\vdots}$\\
+				(übrige Zeilen entstehen durch zyklische Shifts um $1-7$ Stellen)\\
+				$b=\lrr{11000110}$
+		\subExEnd
+		In AES wird SubBytes durch Tablelookup realisiert:\\
+		$16\times 16$-Matrix, Einträge sind $0,\dots,255$ binär codiert $\leftrightarrow$ Bytes\\
+		Input: $\lrr{b_7b_6\dots b_0}\qquad b_7b_6b_5b_4\rightarrow$ bestimmt Zeile $x$, $b_3b_2b_1b_0\rightarrow$ bestimmt Spalte $y$ der Matrix\\
+		An der Stelle $\lrr{x,y}$ steht das Ergebnis.
+	\subsection{Shift Rows und Mix Columns Transfer}
+		\begin{itemize}
+			\item \textbf{Shift Rows}
+			
+				Jede der $4$ Zeilen der $4\times 4$-Matrix (nach SubBytes) wird zyklisch nach links verschoben.\\
+				$i$-te Zeile um $\lrr{i-1}$-Stellen, wobei $i\in\lrc{1,2,3,4}$\\
+				$\lrv{b_{00}&\dots&b_{03}\\b_{10}&\dots&b_{13}\\\vdots&\vdots&\vdots}\rightarrow\lrv{b_{00}&\dots&\dots&b_{03}\\b_{11}&b_{12}&b_{13}&b_{10}}$
+			\item \textbf{Mix Columns}
+			
+				Jedes Byte in der $4\times 4$-Input-Matrix wird als Element des $\mathbb{F}_{2^8}$ aufgefasst. \\
+				Multipliziere diese $4\times 4$-Matrix von links $M=\lrv{x&x+1&1&1\\1&x&x+1&1\\1&1&x&x+1\\x+1&1&1&x}$\\
+				$M\cdot\lrv{p_{00}&\\p_{10}&x\times x\\p_{20}&\\p_{30}&} = \lrv{xp_{00}+xp_{10}+p_{10}+p_{20}+p_{30}\\p_{00}+xp_{10}+xp_{20}+p_{20}+p_{30}}$\\
+				Dabei ist $\cdot$ in der Regel $\odot$ in $\mathbb{F}_{2^8}$
+		\end{itemize}
+		Verwendet werden diese Verfahren für \textbf{Diffusion} und \textbf{Konfusion}
+	\subsection{Rundenschlüsselerzeugung}
+		Ausgangsschlüssel $128$ Bit. Schreibe als $4\times 4$-Matrix von Bytes, spaltenweise.\\
+		$w(0),w(1),w(2),w(3)$ Spalten \\
+		Definiere $40$ weitere Spalten à $4$ Bytes.\\
+		Angenommen $w(0),\dots,w(i-1)$ sind schon definiert $\lrr{i\geq 4}$
+		\begin{itemize}
+			\item $i\not\equiv 0\lrr{\mod 4}$:\\
+				$w(i)=w\lrr{i-1}\oplus w\lrr{i-4}$
+			\item $i\equiv 0\lrr{\mod 4}$:\\
+				$w(i)=T\lrr{w\lrr{i-1}}\oplus w\lrr{i-4}$
+		\end{itemize}
+		$T$ folgt Transformation $w\lrr{i-1}=\lrv{a\\b\\c\\d}$ mit $a,b,c,d$ Bytes.\\
+		Wende Auf $\begin{array}{cccc}b&c&d&a\\e&f&g&h\end{array}$ SubBytes-Transformation an.\\
+		Berechne $r\lrr{i}=(\underbrace{00000010}_{x})^{\frac{i-4}{4}}$ in $\mathbb{F}_{2^8}$\\
+		$T\lrr{w\lrr{i-1}}=\lrv{e\oplus r(i)\\f\\g\\h}$ Rundenschlüssel $k_i$\\
+		$\lrr{w\lrr{4i},w\lrr{4i+1},w\lrr{4i+2},w\lrr{4i+3}}$\\
+		$i=0,1,\dots,10$
