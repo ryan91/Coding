@@ -318,3 +318,99 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		$T\lrr{w\lrr{i-1}}=\lrv{e\oplus r(i)\\f\\g\\h}$ Rundenschlüssel $k_i$\\
 		$\lrr{w\lrr{4i},w\lrr{4i+1},w\lrr{4i+2},w\lrr{4i+3}}$\\
 		$i=0,1,\dots,10$
+		
+	\subsection{Entschlüsselung}
+		Alle einzelnen Transformationen sind invertierbar. Kehre Algorithmus um und ersetztz alle Transformationen durch ihr Inverses.
+		
+	\subsection{Schnelligkeit und Sicherheit}
+		\begin{itemize}
+			\item Schnelligkeit:
+			\begin{itemize}
+				\item Software: $200\frac{\text{MBit}}{s}-2\frac{\text{GBit}}{s}$
+				\item Hardware: $2\frac{\text{GBit}}{s}-70\frac{\text{GBit}}{s}$
+			\end{itemize}
+			\item Sicherheit
+			\begin{itemize}
+				\item Nach 2 Runden vollständige Diffusion
+				\item Verfahren ist sicher gegen bekannte Angriffe (Differenzielle und lineare Kryptoanalyse)
+			\end{itemize}
+			\item Schlüsselerzeugungen mittels Subbytes soll verhindern, dass dbei Kenntnis von Teilen des Ausgangsschlüssels die übrigen Bits einfach zu ermitteln sind.
+			\item Verschiedene Ausgangsschlüssel haben nie viele Rundenschlüssel gemeinsam.
+		\end{itemize}
+	
+\section{Public- Key- Systeme}
+	\subsection{Grundidee}
+		Jeder Teilnehmer $A$ hat Paar von Schlüsseln
+		\begin{itemize}
+			\item Öffentlicher Schlüssel $P_A$
+			\item Geheimer Schlüssel $G_A$
+		\end{itemize}
+		Zu jedem öffentlichen Schlüssel gibt es eine Verschlüsselungsfunktion	 $E_{P_A}=E(\circ, P_A)$ öffentlich bekannt.\\
+		$B\overset{m}{\longrightarrow}A$\\
+		$m\mapsto E_{P_A}(m)=c$
+		
+		\textbf{Bedingungen}
+		\subExBegin{(1)}
+			\item $m$ darf nicht mit realistischem Aufwand aus $E_{P_A}(m)$ berechenbar sein (natürlich muss $E_{P_A}(m)$ effizient berechenbar sein). $E_{P_A}$ ist eine \textbf{Einwegfunktion}.
+			\item $A$ muss $m$ aus $c=E_{P_A}(m)$ effizient berechnen können mit Hilfe von $G_A$. $m=D_{G_A}(c)$\\
+			Injektive Einwegfunktionen, die mit Zusatzinformation effizient invertierbar sind: \textbf{Geheimtürfunktionen} oder \textbf{trap door functions}.
+			\item $G_A$ darf aus $P_A$ nicht effizient berechenbar sein.
+		\subExEnd
+		
+		\textbf{Gibt es Einwegfunktionen?}\\
+		Es gilt: $P\mpo NP$\\
+		Notwendig: $P\neq NP$\\
+		Es gibt einen Kandidaten für eine Einwegfunktion, auf denen geläufige Public- Key- Systeme basieren.
+	
+	\subsection{RSA- Verfahren}
+		Rivest, Shamir, Adleman, 1977. Beruht auf Schwierigkeit zu faktorisieren
+		\subExBegin{a)}
+			\item Schlüsselerzeugung
+				Man wähle zwei große Primzahlen $p,q$, $p\neq q$.
+				\begin{itemize}
+				\item $n=p\cdot q$\\
+				Euler'sche $\varphi$ Funktion: $\varphi(n)=\mathcal{K}\in\mn:a\leq n, \ggT(a,n)=1$\\
+				\item $\varphi(n)=(p-1)(q-1)$
+				\item Wähle $e$ mit $\ggT(e,\varphi(n))=1$
+				\end{itemize}
+				
+				\textbf{Öffentlicher Schlüssel} $P_a(n,e)$\\
+				($p,q,\varphi(n)$ bleiben geheim)
+				
+				Wähle $1\leq d\leq\varphi(n)$ mit $e\cdot d\equiv 1(\mod \varphi(n))$ (Wie $\ggT(\varphi(n),e)=a\cdot e+b\cdot\varphi(n)$ für $a,b\in\mz$\\
+				$a\cdot e\equiv\ggT(\varphi(n),e)\mod\varphi(n)$\\
+				setze $d=a\mod\varphi(n)$
+				
+				\textbf{Gemeimer Schlüssel} $G_A=d$
+			\item Verschlüsselung\\
+				$B\overset{m'}{\longrightarrow} A$	\\
+				$B$ codiert $m'$ als Zahl, zerlegt sie in Blöcke gleicher Länge, so dass jeder block eine Zahl $<n$ ist. Sei $m$ eine solche Zahl.\\
+				$c=m^e\mod n$ Chiffretext
+			\item Entschlüsselung\\
+			$A$ bildet: $x^d\mod n$\\
+			Behauptung: $c^d\mod n=m$\\
+			Grund: Kleiner Satz von Fermat: Ist $r$ eine Primzahl, $a\in\mz$, für die $\ggT(p,a)=1$, do $a^{r-1}\equiv 1(\mod r)$\\
+		$ed=1\mod(\varphi(n))$\\
+		$e\cdot d=1+k\cdot\varphi(n)$ für $k\in\mz$\\
+		$c^3=\lrr{m^e}^d=m^{ed}=m^{1+k\cdot\varphi(n)}=m^{1+(p-1)(q-1)\cdot k}=m\cdot\lrr{m^{(p-1)}}^{(q-1)\cdot k}\mod p$
+		\begin{itemize}
+			\item $p\not\|m$: $c^d=m(1)^{(q-1)\cdot k}=m\mod p$
+			\item $p|m$: $c^d=m\cdot\lrr{m^{(p-1)}}^{(q-1)\cdot k}\equiv 0\ \mod p$\\
+			$0\equiv m\mod p$\\
+			$c^d\equiv m\mod p$
+		\end{itemize}
+		Ebenso für $q$\\
+		$\Rightarrow c^d=m\mod q$\\
+		$q|(c^d-m)$\\
+		$p|(c^d-m)$\\
+		$\Rightarrow\mbox{kgV}(p,q)|(c^d-m)$\\
+		$pq|(c^d-m)$\\
+		$c^d\equiv m\mod n$
+		\subExEnd
+		
+	\subsection{Berechnung modularer Potenzen}
+		Ziel: $m^e\mod n$ berechnen\\
+		Problem: Overflow\\
+		$e=\limsum{i=0}{k}e_i\cdot 2^i$\quad $e_k=1$ (Binärdarstellung von $e$)\\
+		$m^e=m^{\limsum{i=0}{k}e_i2^i}=m^{e_k2^k}\cdot m^{e_{k-1}2^{k-1}}\cdot\dots\cdot m^{e_1\cdot 2}\cdot m^{e_0}$\\
+		$=\lrr{\lrr{m^2\cdot m^{e_{k-1}}}^2\cdot m^{e^{k-2}}}^2\cdot)^2\cdot m^{e_1})^2\cdot m^{e_0}$
