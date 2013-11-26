@@ -389,7 +389,8 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 			\item Entschlüsselung\\
 			$A$ bildet: $x^d\mod n$\\
 			Behauptung: $c^d\mod n=m$\\
-			Grund: Kleiner Satz von Fermat: Ist $r$ eine Primzahl, $a\in\mz$, für die $\ggT(p,a)=1$, do $a^{r-1}\equiv 1(\mod r)$\\
+      Grund: Kleiner Satz von Fermat: Ist $r$ eine Primzahl, $a\in\mz$, für die
+      $\ggT(p,a)=1$, do $a^{r-1}\equiv 1(\mod r)$\\
 		$ed=1\mod(\varphi(n))$\\
 		$e\cdot d=1+k\cdot\varphi(n)$ für $k\in\mz$\\
 		$c^3=\lrr{m^e}^d=m^{ed}=m^{1+k\cdot\varphi(n)}=m^{1+(p-1)(q-1)\cdot k}=m\cdot\lrr{m^{(p-1)}}^{(q-1)\cdot k}\mod p$
@@ -407,10 +408,107 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		$pq|(c^d-m)$\\
 		$c^d\equiv m\mod n$
 		\subExEnd
-		
+
 	\subsection{Berechnung modularer Potenzen}
 		Ziel: $m^e\mod n$ berechnen\\
 		Problem: Overflow\\
 		$e=\limsum{i=0}{k}e_i\cdot 2^i$\quad $e_k=1$ (Binärdarstellung von $e$)\\
 		$m^e=m^{\limsum{i=0}{k}e_i2^i}=m^{e_k2^k}\cdot m^{e_{k-1}2^{k-1}}\cdot\dots\cdot m^{e_1\cdot 2}\cdot m^{e_0}$\\
 		$=\lrr{\lrr{m^2\cdot m^{e_{k-1}}}^2\cdot m^{e^{k-2}}}^2\cdot)^2\cdot m^{e_1})^2\cdot m^{e_0}$
+
+    \textbf{Beispiele für RSA:}\\
+      1)\\
+      $p=13,\ q=23$\\
+      $n=p\cdot q=299$\\
+      $\varphi(12\cdot 22)=264$\\
+      kleinstmögliches $e=5$\\
+      Öffentlicher Schlüssel $(n,e)=(299,5)$
+
+      2) Bestimmung des geheimen Schlüssels: Entweder mit EEA $u,v\in\mz$
+      bestimmen mit $u\cdot e+v\cdot\varphi(n)=1$. Dann $d=u\mod\varphi(n)$.
+
+      In unserem Fall:\\
+      $5|1\cdot 265+1=265$\\
+      $d=\frac{265}{5}=53$\\
+      Geheimer Schlüssel: $d=553$
+
+      3) Verschlüsselung\\
+      Klartext $m=212$\\
+      $m^5\mod 299$ berechnen
+      $212^2=44944\equiv 94(\mod 299)$\\
+      $212^4\equiv 94^2=8836\equiv 165(\mod 299)$\\
+      \dots
+
+      4) Enschlüsselung\\
+      Zu berechnen: $C^{53}\mod 299$\\
+      \dots
+
+      $n=pq$, $\varphi(n)=(p-1)(q-1), \ggT(e,\varphi(n))=1$\\
+      $(n,e)$ öffentlich, $e\cdot d\equiv 1(\mod\varphi(n))$\\
+      $d$ geheim.\\
+      $m<n$. Verschlüsselung $c=m^e\mod n$\\
+      Entschlüsselung $c^d\mod n=m$.
+
+  \subsection{Sicherheit von RSA}
+    \subExBegin{a)}
+      \item Kein polynominialer Algorithmus zur Berechnung $e$- ter Wurzeln.
+      \item Wie leicht ist die Bestimmung con $d$, falls $(e,n)$ bekannt.\\
+        Leicht, falls $\varphi(n)$ bekannt ist (EEA)\\
+        $\varphi(n)$ per Definition zu bestimmen, ist für große $n$ unmöglich.
+        Leicht, falls $p.q$ bekann sind: $\varphi(n)=(p-1)(q-1)$. Gleich
+        schwierig sind folgende Probleme:
+        \begin{itemize}
+          \item Bestimmung des geheimen Schlüssels
+          \item Bestimmung von $\varphi(n)$\\
+          \item Bestimmung des Faktorisierung von $n=p\cdot q$.
+        \end{itemize}
+      \item Komplexität der schnellsten Faktorisierungsalgorithmen:
+        $O(e^{c\cdot(\log(n))^{1/3}(\log\log n)^{2/3}})$\\
+        Faktorisierung von 768- Bit- Zahl: 2000 CPU- Jahre\\
+        1024- Bit- Zahl: 1000 mal länger.\\
+        Heutige Empfehlung: 2048 Bit. (ca $10^9$ mal länger als 1024- Bit-
+        Zahl)\\
+        3064 Bit RSQ $\Leftrightarrow$ AES 128 Bit
+      \item Spielzeug- RSA ist unsicher, falls $m^e<n$.
+    \subExEnd
+
+  \subsection{Bestimmung großer Primzahlen}
+    Zufallswahl, teste Teilbarkeit durch kleine Primzahlen\\
+    Dann Primzahltest.\\
+    \textbf{Fermat- Test:} $p$ Primzahl. $1\leq a\leq p-1$. Kleiner Satz von
+    Fermat: $a^{p-1}\equiv 1(\mod p)$\\
+    $n$ Primzahl oder nicht?\\
+    Wähle $1\leq a\leq n-1$. Test $a^{n-1}\equiv 1(\mod n)$.\\
+    Wenn nicht, so ist $n$ keine Primzahl. Wenn ja, so wähle neues $a$. $n$ ist
+    Primzahl, falls test für alle $1\leq a\leq n-1$ erfüllt ist.
+
+    Es gibt unendlich viele zusammengesetzte Zahlen $n$, die den Test für alle
+    $1\leq a\leq n-1$ erfüllgen, mit $\ggT(a,n)=1$. (Carmichael- Zahlen)
+
+    Verfeinerung des Tests: \textbf{Miller- Rabin- Test} (probabilistischer
+    Test)\\
+    (es gibt einen deterministischen, polynominialen Primzahltest: AKS-
+    Algorithmus)
+
+  \subsection{Das Diffie- Hellman- Verfahren zur Schlüsselvereinbarung (1976)}
+    Sicherere Schlüsselvereinbarung über unsicheren Kanal.
+    \begin{enumerate}[a)]
+      \item $p$ Primzahl, $\mz_p^*=\lrc{1,...,p-1}$ Gruppe bezüglich $\odot$\\
+        Es existiert $g\in\mz_p^*\quad \mz_p^*=\lrc{g^0,g^1,...,g^{p-1}}$\\
+        $g$ \textbf{Primitivwurzel} $\mod p$.\\
+        $g\in\mz_p^*$ Primitivwurzel $\Leftrightarrow$
+        $g^{\frac{p-1}{q}}\not\equiv 1(\mod p)$ für alle Primitivteiler $q$ von
+        $p-1$.
+
+        $p,g$ öffentlich. $a\in\lrc{0,...,p-2}\mapsto g^a\mod p\in\mz_p^*$.
+      \item Das Verfahren:\\
+        \begin{enumerate}[1.]
+          \item $A$ wählt zufällig $a\in\lrc{2,...,p-2}$, $x=g^a\mod p$ $x\rightarrow B$
+          \item $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, $y=g^b\mod p$ $y\rightarrow A$
+          \item $A$ berechnet $y^a\mod p=K$, $B$ berechnet $x^b\mod p=K$.
+        \end{enumerate}
+
+        Dann gilt:\\
+        $y^a=\lrr{g^b}^a\mod p=g^{ab}$\\
+        $x^b=\lrr{g^a}^b\mod p=g^{ab}$
+    \end{enumerate}
