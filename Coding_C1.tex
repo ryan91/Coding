@@ -525,7 +525,16 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
     \end{enumerate}
 
   \subsection{Man- in- the- middle- Angriff auf D-H- Verfahren}
-    % Graphic
+  	\begin{tikzpicture}
+		\draw [->] (-2.2,0)node[anchor = east]{A} -- (-1.3,0)node[anchor = south]{$\scriptstyle x=g^a\mod p$} -- (-0.3,0)node[anchor = west]{M};
+		\draw [->] (2.1,0)node[anchor = west]{B} -- (1.2,0)node[anchor = south]{$\scriptstyle y=g^b\mod p$} -- (0.3,0);
+		\draw (0,-1)node{$\scriptstyle g^c\mod p$};
+		\draw [->] (-0.8,-.9) -- (-2.2,-0.3);
+		\draw [->] (0.8,-.9) -- (2.1,-0.3);
+		\draw (-2,-1)node{$\scriptstyle \underset{K_A}{g^{ca}\mod p}$};
+		\draw (2,-1)node{$\scriptstyle \underset{K_B}{g^{cb}\mod p}$};
+	\end{tikzpicture}
+	
   $A\ouset{\longrightarrow}{}{f_{K_A}(m)}\ouset{M}{}{m}
   \ouset{\longrightarrow}{}{f_{K_B}(m)} B$
 
