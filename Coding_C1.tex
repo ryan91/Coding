@@ -534,7 +534,7 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 		\draw (-2,-1)node{$\scriptstyle \underset{K_A}{g^{ca}\mod p}$};
 		\draw (2,-1)node{$\scriptstyle \underset{K_B}{g^{cb}\mod p}$};
 	\end{tikzpicture}
-	
+
   $A\ouset{\longrightarrow}{}{f_{K_A}(m)}\ouset{M}{}{m}
   \ouset{\longrightarrow}{}{f_{K_B}(m)} B$
 
@@ -555,3 +555,43 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
     $x^b\cdot m_1\mod p,\ x^b\cdot m_2\mod p\longrightarrow A$\\
     Angenommen, Angreifer kennt $(m_1,f_1)$. $m_1\cdot\ifu{f_1}\cdot f_2\mod p
     =m_1\cdot\ifu{m_1}m_2\mod p=m_2$
+
+  \subsection{Signaturen, Hashfunktionen, Authentifizierung}
+    Anforderungen an Signatur:
+    \begin{itemize}[-]
+      \item Echtheitseigenschaft des Dokuments
+      \item Identitätseigenschaft des Unterzeichners
+      \item Verifikationseigenschaft: Jeder Empfänger muss Signatur
+        verifizieren können
+    \end{itemize}
+
+  \subsection{RSA- Signatur (in vereinfachter Form)}
+    $A$ öffentlicher RSA- Schlüssel $(n,e)$, geheimer RSA- Schlüssel $d$\\
+    $A$ will Nachricht $m$ signieren. $m<n$.\\
+    $A: m^d\mod n\longleftarrow$ Signatur von $m$. $A$ sendet ($m$, $m^d\mod
+    n$) an $B$.\\
+    $B$ verifiziert: $(m^d\mod n)^e=m^{ed}\mod n\ouset{=}{\smt{!}}{}m$
+
+    \textbf{Nachteil:} Signatur ist so lang wie die Nachricht
+
+  \subsection{Hashfunktion}
+    $R$ endliches Alphabet. Hashfunkion ist Abbildung $R^*\rightarrow R^k$, $k$
+    fest ($R^*=$ Menge aller endlichen Wörter über $R$), die sich effizient
+    berechnen lässt.
+
+  \subsection{RSA- Signatur mit Hashfunktion}
+    $A$ signiert $m$ (nicht notwendigerweise $m<n$): $A$ verwendet öffentlich
+    bekannte Hashfunktion $H$ (Hashlänge $k$ $<$ Länge von $n$).\\
+    Signatur $(m,H(m)^d\mod n)$\\
+    Verifikation: $B$ bildet uas $m$ mit $H$ den Hashwert $H(m)$.
+    $\lrr{H(m)^d}^e\mod n\ouset{=}{\smt{!}}{}H(m)$
+
+  \subsection{Anforderungen an H}
+    \begin{enumerate}[a)]
+      \item Angreifer kann $H(m)$ bestimmen. Gelingt es ihm, $m'\neq m$ zu
+        finden mit $H(m)=H(m')$, dann ist auch $(m', H(m)^d\mod n)$ gültige
+        Signatur
+      \item Angreifer wählt zufällig $y<n$. Er berechnet $y^e\mod n=:z$.
+        Gelingt es ihm, ein $m$ zu finden mit $H(m)=z$, so ist $(m, y)$ eine
+        gültige Signatur von $A$.\\
+    \end{enumerate}
