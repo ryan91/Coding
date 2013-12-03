@@ -501,14 +501,48 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
         $p-1$.
 
         $p,g$ öffentlich. $a\in\lrc{0,...,p-2}\mapsto g^a\mod p\in\mz_p^*$.
-      \item Das Verfahren:\\
+      \item Das Verfahren:
         \begin{enumerate}[1.]
-          \item $A$ wählt zufällig $a\in\lrc{2,...,p-2}$, $x=g^a\mod p$ $x\rightarrow B$
-          \item $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, $y=g^b\mod p$ $y\rightarrow A$
+          \item $A$ wählt zufällig $a\in\lrc{2,...,p-2}$, $x=g^a\mod p$
+            $x\rightarrow B$
+          \item $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, $y=g^b\mod p$
+            $y\rightarrow A$
           \item $A$ berechnet $y^a\mod p=K$, $B$ berechnet $x^b\mod p=K$.
         \end{enumerate}
 
         Dann gilt:\\
         $y^a=\lrr{g^b}^a\mod p=g^{ab}$\\
         $x^b=\lrr{g^a}^b\mod p=g^{ab}$
+      \item Sicherheit: Angreifer kennt $p,q$, $g^a\mod p$, $g^b\mod p$, möchte
+        wissen $g^{ab}\mod p$ \textbf{Diffie- Hellman- Problem}
+
+        Bis heute einzige Lösung: Diskreter Logarithmus- Problem\\
+        Geg.: $g^a\mod p$, $g$, $p$\\
+        Best.: $a$\\
+        Lösung DLP $\rightarrow$ Lösung D- H- Problem\\
+        Brute Force: $O(p)$\\
+        Beste Verfahren sind schneller. Empfehlung $p\geq 2048\mbox{ Bit}$
     \end{enumerate}
+
+  \subsection{Man- in- the- middle- Angriff auf D-H- Verfahren}
+    % Graphic
+  $A\ouset{\longrightarrow}{}{f_{K_A}(m)}\ouset{M}{}{m}
+  \ouset{\longrightarrow}{}{f_{K_B}(m)} B$
+
+  \subsection{ElGamal- Public- Key- Verfahren}
+    \textbf{Schlüsselerzeugung:} $A$ wählt $p,g$ wie bei D-H und zufällig
+    $a\in\lrc{2,...,p-2}$\\
+    $x=g^a\mod p$\\
+    \textbf{Öffentlicher Schlüssel:} $(p,g,x)$\\
+    \textbf{Geheimer Schlüssel:} $a$\\
+    \textbf{Verschlüsselung:} Klartextblock, $1\leq m\leq p-1$, $B\rightarrow A$.\\
+    $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, berechnet $y=g^b\mod p$.\\
+    $B$ berechnet $y=x^b\mod p$, $f=x^b\cdot m\mod p$\quad $(y,f)\rightarrow
+    A$.\\
+    \textbf{Entschlüsselung} durch $A$: $y=g^b\mod p$, $f=x^b\mod p$\\
+    $y^a\mod p=g^{ba}\mod p=x^b\mod p$\\
+    $\lrr{x^b}^{-1}\cdot f\mod p=m\mod p=m$
+    $B$ muss bei jeder Verschlüsselung eines Blocks ein neues $b$ wählen.\\
+    $x^b\cdot m_1\mod p,\ x^b\cdot m_2\mod p\longrightarrow A$\\
+    Angenommen, Angreifer kennt $(m_1,f_1)$. $m_1\cdot\ifu{f_1}\cdot f_2\mod p
+    =m_1\cdot\ifu{m_1}m_2\mod p=m_2$
