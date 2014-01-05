@@ -622,7 +622,7 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 	Gegeben sind $l$ Objekte. $\lrr{g_1,\dots,g_l}\in\lrc{1,\dots,m}^l$ Gesamte Anzahl: $m^l$\\
 	Alle $g_i$ verschieden: $\limprod{i=0}{l-1}\lrr{m-i}$ Möglichkeiten. Die Wahrscheinlichkeit, dass keine $2$ Objekte die gleiche Merkmalsausprägung haben: $q=\frac{\limprod{i=0}{l-1}\lrr{m-i}}{m^l}=\limprod{i=0}{l-1}\lrr{1-\frac{i}{m}}$\\
 	Benutze: $e^x\geq 1+x$\\
-	$q\leq\limprod{i=0}{l-1}e^{-\frac{i}{m}}=e^{\limsum{i=0}{l-1}-\frac{l}{m}}=e^{-\frac{1}{m}\limsum{i=0}{l-1}i}=e^{-\frac{1}{m}\frac{l\lrr{l-1}}{2}$\\
+	$q\leq\limprod{i=0}{l-1}e^{-\frac{i}{m}}=e^{\limsum{i=0}{l-1}-\frac{l}{m}}=e^{-\frac{1}{m}\limsum{i=0}{l-1}i}=e^{-\frac{1}{m}\frac{l\lrr{l-1}}{2}}$\\
 	Ich will $q\leq\frac{1}{2}$, das gilt für $e^{-\frac{1}{m}\frac{l\lrr{l-1}}{2}}\leq\frac{1}{2}$. Wende $\ln$ an:\\
 	$-\frac{1}{m}\frac{l(l-1)}{2}\leq\ln\lrr{\frac{1}{2}}=-\ln\lrr{2}$\\
 	$\frac{1}{m}\frac{l\lrr{l-1}}{2}\geq\ln\lrr{2}$\\
