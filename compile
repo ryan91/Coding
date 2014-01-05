@@ -1,0 +1,29 @@
+#!/bin/bash
+# Use this script to compile the LaTeX files if you don't want to compile them yourself
+# The script gets one paremeter which indicates if all chapters should be compiled or
+# only the latest one
+# valid input parameters are:
+#	true, 1, yes
+# 	false, 0, no
+if [ ${#} == 1 ]; then
+	COMPILEALL=''
+	FILENAME='Coding'
+	if [ ${1} == 'true' ] || [ ${1} == '1' ] || [ ${1} == 'yes' ]; then
+		COMPILEALL='true'
+	elif [ ${1} == 'false' ] || [ ${1} == '0' ] || [ ${1} == 'no' ]; then
+		COMPILEALL='false'
+	else
+		echo "Unknown identifier"
+		exit 1
+	fi 
+	if [ -e "$FILENAME.tex" ]; then
+		cat "$FILENAME.tex" | sed -E "s/(\\\\setboolean\{.*\}\{).*\}/\1$COMPILEALL}/" |
+			 pdflatex --jobname "$FILENAME"	
+	else
+		echo "Could not find file: $FILENAME.tex"
+		exit 1
+	fi
+else
+	echo 'Usage: compile {true|false}'
+	exit 1
+fi
