@@ -595,3 +595,88 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
         Gelingt es ihm, ein $m$ zu finden mit $H(m)=z$, so ist $(m, y)$ eine
         gültige Signatur von $A$.\\
     \end{enumerate}
+
+	\subsection{Definition}
+	Eine \textbf{kryptographische Hashfunktion} ist eine Hashfunktion, die folgende Bedingungen erfüllt
+	\subExBegin{(1)}
+		\item $H$ ist Einwegfunktion
+		\item $H$ ist \textbf{schwach Kollisionsresistent}, das heißt für ein gegebenes $m$ ist es \textbf{nicht effizient} (d.h. nicht in Polynomialzeit) möglich. ein $m'\neq m$ zu finden mit $H(m)=H(m')$
+		\item[(2)'] Verschärfung von (2)\\
+			$H$ ist \textbf{stark kollisionsresistent}, wenn es nicht effizient möglich ist zwei $m\neq m'$ zu finden mit $H(m)=H(m')$\\
+			Da Hashfunktionen nicht injektiv sind, gibt es Kollisionsen (sogar unendlich viele), diese sollen schwer zu finden sein.
+	\subExEnd
+	Erzeugung einer Kollision\\
+	Hashwerte haben die Länge $n$ (binär) $\rightarrow 2^n$ Möglichkeiten.\\
+	$H(m_1),H(m_2),\dots,H(m_{2^n+1})$ (100\% Kollision)\\
+	Bei $2^{\frac{n}{2}}=\sqrt{2^n}$ erhält man zu 50\% eine Kollision.
+	
+\subsection{Satz - Geburtstagsparadox}
+	Ein Merkmal komme in $m$ Ausprägungen vor. Jedes Objekt (einer Grundgesamtheit) besitze genau eine dieser Merkmalsausprägung.\\
+	Ist dann $l\geq\frac{1+\sqrt{1+8m\cdot\ln\lrr{2}}}{2}\ouset{\sim}{\smt{Physiker-}}{\smt{style}}\sqrt{m}$, so ist die Wahrscheinlichkeit, dass unter $l$ Objekten zwei die gleiche Merkmalsausprägung haben, mindestens $\frac{1}{2}$
+	
+	\textbf{Beispiel - Geburtstage}\\
+	$m=366$, $l=23$ Also wenn $23$ Personen in einem Raum sind ist die Wahrscheinlichkeit zwei leite mit dem gleichen Geburtstag anzutreffen mindestens 50\%.
+	
+	\textbf{Beweis}
+	
+	Gegeben sind $l$ Objekte. $\lrr{g_1,\dots,g_l}\in\lrc{1,\dots,m}^l$ Gesamte Anzahl: $m^l$\\
+	Alle $g_i$ verschieden: $\limprod{i=0}{l-1}\lrr{m-i}$ Möglichkeiten. Die Wahrscheinlichkeit, dass keine $2$ Objekte die gleiche Merkmalsausprägung haben: $q=\frac{\limprod{i=0}{l-1}\lrr{m-i}}{m^l}=\limprod{i=0}{l-1}\lrr{1-\frac{i}{m}}$\\
+	Benutze: $e^x\geq 1+x$\\
+	$q\leq\limprod{i=0}{l-1}e^{-\frac{i}{m}}=e^{\limsum{i=0}{l-1}-\frac{l}{m}}=e^{-\frac{1}{m}\limsum{i=0}{l-1}i}=e^{-\frac{1}{m}\frac{l\lrr{l-1}}{2}$\\
+	Ich will $q\leq\frac{1}{2}$, das gilt für $e^{-\frac{1}{m}\frac{l\lrr{l-1}}{2}}\leq\frac{1}{2}$. Wende $\ln$ an:\\
+	$-\frac{1}{m}\frac{l(l-1)}{2}\leq\ln\lrr{\frac{1}{2}}=-\ln\lrr{2}$\\
+	$\frac{1}{m}\frac{l\lrr{l-1}}{2}\geq\ln\lrr{2}$\\
+	Auflösen nach $l$ liefert Ergebnis.
+
+\subsection{Geburtstagsattacke (Buja!)}
+	Gegeben.: $H:\lrc{0,1}*\rightarrow\lrc{0,1}^k$ wobei $k$ fest.\\
+	Angreifer erzeugt möglichst viele Hashwerte.\\
+	6.7: Wenn er $\sqrt{2^k}=2^{\frac{k}{2}}$ Hashwerte erzeugt hat, ist die Wahrscheinlichkeit für Kollisionen $\geq\frac{1}{2}$\\
+	Das ist die übliche Benchmark zur überprüfung von Kollisionsfreiheit von hashfunktionen.
+	
+	$k=64$ ist nicht ausreichend, da $2^32$ Hashwerte zu erzeugen durchaus machbar ist. Man sagt $k\geq 128$ oder noch besser $k\geq 160$.
+	
+\subsection{Bemerkung}
+	Weit verbreitet sind/waren: $\ouset{MD5}{}{k=128}, \ouset{SHA-1}{}{k=160}$ ($2^{51}-2^{57}$ vgl. Benchmark: $2^{80}$)\\
+	SHA-2-Familie.\\
+	P.Hoffman, B-Schneier (http://tools.ietf.org/html/rfc4270)\\
+	2007 NIST: Ausschreibung (SHA-3)\\
+	2012 Keccak (Bertoni,Daemen,Peeters, van Assche)\\
+	http://csrc.nist.gov/groups/ST/hash/sha-3
+	
+\subsection{Authentifizierung}
+	Nachweis/Überprüfung der Identität.
+	\begin{itemize}
+		\item Wissen
+		\item Besitz (fälschungssichere Gegenstände)
+		\item biometrische Merkmale
+	\end{itemize}
+	
+\subsection{Passwörter}
+	$A\ouset{\longrightarrow}{}{\smt{authent.}}$\\
+	$A$ wählt Passwort $w_A$	
+	In $B$ gespeichert $f(w_A)$ wobei $f$ Einwegfunktion ist.\\
+	Passwortsicherheit: http://www.schneier.com/crypto-gram-0701.html
+	
+	\textbf{Einmal-Passwörter}
+	
+	z.B. Lamport 1981\\
+	$f$ ist Einwegfunktion. $A\quad w_A, f(w_A),f^2(w_A),\dots,f^n(w_A)$\\
+	Anfang: $A\rightarrow B$ $f^n(w_A)=w_0$ ($B$ muss sicher sein, dass $w_0$ von $A$ kommt)\\
+	$A\ouset{\rightarrow}{f^{n-1}(w_A)=w_1}{}B$ $B$ überprüft $f(w_1)=w_0$, $w_0:=w_1$\\
+	Das bietet Sicherheit gegen \textbf{Replay-Attacken}.
+	
+\subsection{Challenge-Response-Authentifizierung}
+	$A$ $RSA$-Schlüssel $(n,e)$ öffentlich und $d$ geheim.\\
+	$A\ouset{\longrightarrow}{\smt{authent.}}{}B$\\
+	$n>r\ouset{\longleftarrow}{\smt{Zufall}}{}B$\\
+	$A\ouset{\longrightarrow}{r^d\mod n}{B}$
+	
+	$\lrr{r^d}^e\mod n=r$\\
+	$r=s^e\mod n$\\
+	$C\ouset{\rightarrow}{s}{}A$\\
+	$A\ouset{\rightarrow}{s}{}B\quad\sqrt{}$
+	
+	Niemals den selben RSA-Schlüssel für Authentifizierung wie für die Verschlüsselung benutzen!!
+	
+	$B$ erfährt 'nichts' über das Geheimnis von $A$.
