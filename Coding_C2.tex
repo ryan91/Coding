@@ -132,3 +132,93 @@
 	\subsection{Definition}
 		Sei $\mathcal{C}$ Blockcode über $S$ der Länge $n$.\\
 		$\mathcal{C}$ heißt \textbf{perfekt}, falls es $t\in\mn_0$ gibt mit $S^n=\ouset{\mor}{\bullet}{x\in\mathcal{C}}K_t\lrr{x}$ (disjunkte Vereinigung)
+	
+	\subsection{Bemerkung}
+		Ist $ \mathcal{C} $ perfekt, $ \lrabs{\mathcal{C}}>1 $, $ t $ wie in 8.7, dann ist $ d(\mathcal{C})=2t+1 $.
+		
+		\textbf{Beweis:} Klar: $ d(\mathcal{C})>t $. Angenommen, $ d(\mathcal{C})\leq $. Wähle $ x,x'\in\mathcal{C} $ mit $ d(x,x')=d(\mathcal{C}) $. Wähle $ y\in S^n $ mit $ d(x,y)=t,\ d'(x',y)\leq t $\\
+		Dann; $ x\in K_t(x)\mand K_t(x') $ \lightning.\\
+		Also $ d(\mathcal{C})\geq 2t+1 $\\
+		Wähle $ x\in\mathcal{C} $. Wähle $ y\in S^n $ mit $ d(x,y)=t+1 $. $ y\notin K_t(x) $. $ \mathcal{C} $ perfekt. $ \exists x'\in\mathcal{C} $ mit $ y\in K_t(x') $. $ d(x,x')\leq d(x,y)+d(y,x') \leq t+1+t=2t+1 $\\
+		Also: $ d(\mathcal{C})\geq 2t+1 $
+		
+	\subsection{Lemma}
+		$ \lrabs{S}=q $, $ x_t\in S^n $, $ t\in\mn_0 $. Dann ist $ \lrabs{K_t(x)}=\limsum{i=0}{t}\binom{n}{i}(q-1)^i $
+		
+		\textbf{Beweis:} $ x\in S^n $. Wie viele Wörter haben Abstand $ i $ von $ x $?\\
+		Wähle $ i $ Positionen aus $ \lrc{i,...,n} $ aus: $ \binom{n}{i} $ Möglichkeiten.
+		Bei Auswahl dieser Positionen: $ (q-1)^i $ Möglichkeiten, ein Wort auszuwählen, dass sich von $ x $ an diesen $ i' $ Positionen unterscheidet.\\
+		gibt es insgesamt $ \binom{n}{i}(q-1)^i $ Wörter, die den Abstand $ i $ haben. In einer Kugel müssen diese noch aufsummiert werden.
+		
+	\subsection{Satz}
+		Sei $ \mathcal{C} $ ein Code der Länge $ n $ über $ S $, $ \lrabs{\mathcal{C}}=1 $, $ \lrabs{S}=q $. Sei $ t\in\mn_0 $ maximal mit $ d(\mathcal{C})\geq 2t+1 $, d.h. $ t=\lfloor\frac{d(\mathcal{C}) -1}{2}\rfloor $.
+		\begin{enumerate}[a)]
+			\item  Hamming- Schranke, Kugelpackungsraum $ K_0 $.
+			\[\lrabs{\mathcal{C}}=\dfrac{q^n}{\limsum{i=0}{t}\binom{n}{i}(q-1)^i}\]
+			\item  $ \mathcal{C} $ ist perfekt $ \Leftrightarrow $ in a) gilt Gleichheit.
+		\end{enumerate}
+		
+		\textbf{Beweis:}
+		\begin{enumerate}[a)]
+			\item $ S^n\mpo\bigcup\limits_{x\in\mathcal{C}}^{\cdot} K_t(x)\ \Rightarrow\ q^n=\lrabs{S^n}\geq\lrabs{\bigcup\limits_{x\in\mathcal{C}}^{\cdot}K_t(x)}=\limsum{x\in\mathcal{C}}{}\lrabs{K_t(x)}\ouset{=}{}{\mbox{\scriptsize 8.9}}\mathcal{C}\cdot\limsum{i=0}{t}\binom{n}{i}(q-1)^i $.
+			\item  Gleichheit:\\
+			$ \leftrightarrow S^n=\bigcup\limits_{x\in C}^{\cdot}K_t(x)\ \Leftrightarrow\ C $ perfekt.
+		\end{enumerate}
+	
+	\subsection{Beispiel}
+		Skip
+		
+	\subsection{Beispiele für perfekte Codes}
+		a) - c) trivial perfekte Codes
+		\begin{enumerate}[a)]
+			\item Einelementige Codes ($ t=n $)
+			\item $ \mathcal{C}=S^n\quad (t=0) $
+			\item  $ n=2t+1 $, $ \mathcal{C}=\lrc{(0,...,0),(1,...,1)} $ perfekt
+			\item $ S=\mz_2=\lrc{0,1} $\\
+			$ \mathcal{C}=\lrc{(c_1,...,c_7)\in\mz_2^7:c_1+c_4+c_6+c_7=0,\ c_2+c_4+c_5+c_7=0,\ c_3+c_5+c_6+c_7} $\\
+			$ \lrabs{\mathcal{C}}=2^4,\ d(\mathcal{C})=3 $ (nachrechnen)\\
+			\textbf{links:} $ \lrabs{\mathcal{C}}=2^4 $\\
+			\textbf{rechts:} $ \frac{2^7}{1+7}=2^4 $\\
+			\textbf{Hamming- Code}
+		\end{enumerate}
+		
+\section{Lineare Codes}
+	\subsection{Definition}
+		$ K $ endlicher Körper, $ n\in\mn $.\\
+		Ein \textbf{linearer Code} $ \mathcal{C} $ ist ein Unterraum des Vektorraums $ K^n $ (d.h. Alph$ =k $).\\
+		Ist $ \dim(\mathcal{C})=k(\leq m) $, so heißt $ \mathcal{C} $ ein $ [n,k] $- Code.\\
+		Ist $ \lrabs{K}=q $, $ \dim(\mathcal{C})=k $, dann $ \lrabs{\mathcal{C}}=q^k $.\\
+		$ \mathcal{C} $ hat Basis $ w_1,...,w_k $, $ \mathcal{C}=\lrc{a_1w_1+...+a_kw_k:\ a_i\in K} $
+	
+	\subsection{Bemerkung}
+		$ \mz_p={0,...,p-1} $ ist Körper bezüglich Addition und Multiplikation $ \mod p $, falls $ p $ eine Primzahl ist.\\
+		Körper von Ordnung $ p^m $: Irreduzibles Polynom $ g $ vom Grad $ m $ über $ \mz_p $.\\
+		$ K=\lrc{f\in\mz_p[x]:\grad(f)<m} $, $ \lrabs{K}=p^m $\\
+		Addition und Multiplikation $ \mod g $.\\
+		(Bis auf Isomorphie) gibt es keine anderen endlichen Körper.
+		
+	\subsection{Beispiel}
+		\subExBegin{a)}
+		\item $ n $- facher Wiederholungscode über $ \mz_p $.\\
+		$ \mathcal{C}=\lrc{(0,...,0),(1,...,1),...,(p-1,...,p-1)}=\lrg{(1,...,1)} $ $ [1,n] $- Coder über $ \mz_p $.\\
+		$ d(\mathcal{C})=n $
+		\item Hamming- Code (8.12 d)) ist \textbf{linearer} $ [4,7] $- Code über $ \mz_2 $, $ d(\mathcal{C})=3 $ (als Lösungsraum eines homogenen, linearen LGS über $ \mz_2 $).
+		\item $ n\geq 2 $. $ \mathcal{C}=\lrc{(c_1,...,c_n):\ \limsum{i=1}{n}c_i=0}\mpo K^n $ linearer $ [n-1,n] $- Code.\\
+		$ K=\mz_2 $: Parity- Check- Code
+		\subExEnd
+		
+	\subsection{Definition}
+		$ K $ endlicher Körper.
+		\begin{enumerate}[a)]
+			\item $ x= (x_1,...,x_n)\in K^n$. $ wt(x)=d(x,0)=\lrabs{\lrc{i:\ x_i\neq 0}} $ Gewicht von $ x $.
+			\item Ist $ \lrc{0}\neq\mathcal{C}\mpo K^n $, so heißt $ wt(\mathcal{C})=\min\lrc{wt(x):\ 0\neq x\in\mathcal{C}} $\\
+			Minimalgewicht von $ \mathcal{C} $.
+		\end{enumerate}
+		
+	\subsection{Satz}
+		Ist $ \lrc{0}\neq\mathcal{C} $ ein linearer Vode, so ist $ d(\mathcal{C})=wt(\mathcal{C}) $.
+		
+		\textbf{Beweis:} $ \mathcal{C} $ linear, $ x,x'\in\mathcal{C}\ \Rightarrow\ x-x'\in\mathcal{C} $.\\
+		$ d(\mathcal{C})=\min\lrc{d(x,x'):\ x,x'\in\mathcal{C},\ x\neq x'} $\\
+		$ =\min\lrc{d(\underbrace{x-x'}_{\in\mathcal{C}},0):\ x,x'\in\mathcal{C},\ x\neq x'} $\\
+		$ =\min\lrc{d(y,0):\  \neq y\in\mathcal{C}}=wt(\mathcal{C}) $.
