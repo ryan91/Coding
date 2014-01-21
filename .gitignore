@@ -7,3 +7,6 @@
 *.synctex.gz
 *.bak
 *.toc
+*.bbl
+*.blg
+*.dvi
