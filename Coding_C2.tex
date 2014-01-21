@@ -44,9 +44,9 @@
         11\rightarrow11011$\\
         1- Fehler- korrigierend:\\
         Decodierung: Such das \gqm{nächste} Codeword zum empfangenen Wort. Je
-        zwei Codewörter unterscheiden sich an mindestens 3 Stellen.\\
+        zwei\\Codewörter unterscheiden sich an mindestens 3 Stellen.\\
         2- Fehler- erkennend: Kann jedoch nicht korrigiert werden, da Abstand
-        zu zwei gültigen Worten 2 ist.
+        zu\\zwei gültigen Worten 2 ist.
     \end{enumerate}
   \subsection{GTIN- Prüfzifferncode (GTIN-13)}
     \begin{enumerate}[a)]
@@ -98,8 +98,9 @@
 		\subExBegin{a)}
 			\item \textbf{Hamming-Decodierung} für Blockcode $\mathcal{C}\mpo S^n$
 			
-				Wird $y\in S^n$ empfangen, so wird $y$ als ein $x'\in\mathcal{C}$ decodiert mit $d\lrr{x',y}=\min\lrc{d\lrr{x,y}:x\in\mathcal{C}}$ (nicht notwendig eindeutig!)\\
-				Hamming-Decodierung ist bestmöglich, wenn alle Codewörter mit der gleichen Wahrscheinlichkeit $p<\frac{1}{2}$ gestört werden und wenn jedes Codewort gleich wahrscheinlich ist.
+				Wird $y\in S^n$ empfangen, so wird $y$ als ein $x'\in\mathcal{C}$ decodiert mit\\
+				$d\lrr{x',y}=\min\lrc{d\lrr{x,y}:x\in\mathcal{C}}$ (nicht notwendig eindeutig!)\\
+				Hamming-Decodierung ist bestmöglich, wenn alle Codewörter mit der gleichen\\Wahrscheinlichkeit $p<\frac{1}{2}$ gestört werden und wenn jedes Codewort gleich wahrscheinlich ist.
 			\item $\mathcal{C}$ Blockcode in $S^n$, $\lrabs{\mathcal{C}}>1$\\
 				\textbf{Minimalabstand} $d\lrr{\mathcal{C}}$ von $\mathcal{C}$: $d\lrr{\mathcal{C}}=\min\lrc{d\lrr{x,y}:x,y\in\mathcal{C} x\neq y}$
 			\item Blockcode $\mathcal{C}$ heißt \textbf{t-Fehler-korrigierend}, falls $d\lrr{\mathcal{C}}\geq 2t+1$, $\mathcal{C}$ heißt \textbf{t-Fehler-erkennend}, falls $d\lrr{\mathcal{C}}\geq t+1$
@@ -216,9 +217,110 @@
 		\end{enumerate}
 		
 	\subsection{Satz}
-		Ist $ \lrc{0}\neq\mathcal{C} $ ein linearer Vode, so ist $ d(\mathcal{C})=wt(\mathcal{C}) $.
+		Ist $ \lrc{0}\neq\mathcal{C} $ ein linearer Code, so ist $ d(\mathcal{C})=wt(\mathcal{C}) $.
 		
 		\textbf{Beweis:} $ \mathcal{C} $ linear, $ x,x'\in\mathcal{C}\ \Rightarrow\ x-x'\in\mathcal{C} $.\\
 		$ d(\mathcal{C})=\min\lrc{d(x,x'):\ x,x'\in\mathcal{C},\ x\neq x'} $\\
 		$ =\min\lrc{d(\underbrace{x-x'}_{\in\mathcal{C}},0):\ x,x'\in\mathcal{C},\ x\neq x'} $\\
 		$ =\min\lrc{d(y,0):\  \neq y\in\mathcal{C}}=wt(\mathcal{C}) $.
+		
+	\subsection{Definition}
+		$\mathcal{C}\lra{n,k}$-Code über $K$.\\
+		Sei $g_1=\lrr{g_{11},\dots,g_{1n}},\dots,g_k=\lrr{g_{k1},\dots,g_{kn}}$ Basis von $\mathcal{C}$\\
+		$G=\lrv{g_1\\\vdots\\g_k}=\lrv{g_{11}\dots g_{1n}\\\vdots\\g_{k1}\dots g_{kn}},\; k\times n$-Matrix, \textbf{Erzeugermatrix} (oder \textbf{Generatormatrix}) von $\mathcal{C}$
+
+	\subsection{Satz}
+		$G$ Erzeugermatrix von $\lra{n,k}$-Code $\mathcal{C}$. Dann gilt $\mathcal{C}=\lrc{uG\mid u\in K^k}$.
+
+		\textbf{Beweis}
+
+		$u=\lrr{u_1,\dots,u_k}, uG=\lrr{u_1,\dots,u_k}\lrv{g_1\\\vdots\\g_k}=u_1g_1+\dots+u_kg_k\in\mathcal{C}$\\
+		Auf diese Weise erhält man alle \textbf{Elemente} von $\mathcal{C}$
+
+	\subsection{Bemerkung}
+		\begin{enumerate}[a)]
+			\item Abbildung $\begin{cases} K^k\rightarrow\mathcal{C}\mpo K^n\\u\mapsto u\cdot G\end{cases}$ ist bijektiv.\\
+				Es ergibt sich die Codierungsmöglichkeit:\\
+				Infowörter der Länge $k\rightarrow$ Codewörter der Länge $n$\\
+				(Lineare Algebra: Es existiert Matrix $\ouset{G}{\sim}{}, n\times k, G\cdot\ouset{G}{\sim}{}=E_k$\\
+				$c\in\mathcal{C}, c=uG$, Bilde $c\ouset{G}{\sim}{}=uG\ouset{G}{\sim}{}=uE_k=u$)
+			\item Elementare Zeilenumformungen bilden aus Erzeugermatrix $G$ von $\mathcal{C}$ wieder eine \\Erzeugermatrix von $\mathcal{C}$.
+		\end{enumerate}
+
+	\subsection{Beispiel}
+		Hamming $\lra{7,4}$-Code über $\mz_2=\lrc{0,1}$\\
+		$\mathcal{C}=\lrc{c_1,\dots,c_7\in\mz_2^7:c_1+c_4+c_6+c_7=0, c_2+c_4+c_5+c_7=0, c_3+c_5+c_6+c_7=0}$\\
+		$c_4,c_5,c_6,c_7$ frei wählbar $\rightarrow c_1,c_2,c_3$ sind dann bestimmt.\\
+		Basis von $\mathcal{C}$: $\lrv{1&1&1&0&0&0&1},\lrv{1&0&1&0&0&1&0},\lrv{0&1&1&0&1&0&0},\lrv{1&1&0&1&0&0&0}$\\
+		Erzeugermatrix $G=\lrv{1110001\\1010010\\0110100\\1101000}\ouset{\Rightarrow}{\smt{elem.}}{\smt{Umf.}}\lrv{1110001\\0100011\\0110100\\0011001}\ouset{\Rightarrow}{\smt{elem.}}{\smt{Umf.}} G'=\lrv{1000101\\0100011\\0010111\\0001110}$ Erzeugermatrix in \textbf{Standardform} von $\mathcal{C}$.(Muss nicht existieren)\\
+		Codierung mit $G'$: $\lrr{u_1,u_2,u_3,u_4}G'=\lrv{u_1,u_2,u_3,u_4,u_1+u_3+u_4,u_2+u_3+u_4,u_1+u_2+u_3}\in\mathcal{C}$
+
+	\subsection{Satz und Definition}
+		$\mathcal{C}$ sei ein $\lra{n,k}$-Code über $K$. Dann existiert $\lrr{n-k}\times n$-Matrix $H$ so dass gilt:\\
+		$y\in K^n: y\in\mathcal{C}\Leftrightarrow Hy^t=0\in K^{n-k}$\\
+		$H$ heißt \textbf{Kontrollmatrix} von $\mathcal{C}$\\
+		Es ist $\mbox{rg}\lrr{H}=n-k$\\
+		(Dann gilt auch $H\cdot G^t=0$, also genau die $\lrr{n-k}\times k$-Nullmatrix, falls $G$ Erzeugermatrix von $\mathcal{C}$
+
+		\textbf{Beweis}
+
+		Sei $g_1,\dots,g_k$ Basis von $\mathcal{C}$, $G=\lrv{g_1\\\vdots\\g_k},g_i=\lrr{g_{i1},\dots,g_{in}}$
+		LGS:\\
+		$x_1g_{11}+\dots+x_ng_{1n}=0\\
+		\dots\\
+		x_1g_{k1}+\dots+x_ng_{kn}=0$\\
+		Das heißt $G\cdot\lrv{x_1\\\vdots\\x_n}=0$ bzw. $\lrr{x_1,\dots,x_n}\cdot G^t=0$\\
+		$\mbox{rg}\lrr{G}=k$ Dimension des Lösungsraums ist $n-k$\\
+		$h_1,\dots,h_{n-k}$ ist Basis des Lösungsraums,\\
+		$Hg_i^t=\lrv{h_1g_i^t\\\vdots\\h_ng_i^t}=0,i=1,\dots,k\Rightarrow Hy^t=0\forall y\in\mathcal{C}$\\
+		LGS ($Hy^t$), Kowffizientenmatrix hat Rang $n-k$ Lösungsraum $\mathcal{C}$ hat $\dim\lrr{k}$
+		
+	\subsection{Bemerkung}
+		\begin{enumerate}[a)]
+			\item Kontrollmatrix kann zur Fehlererkennung verwendet werden
+			\item Beweis von 9.10: erzeugermatrix $\rightarrow$ Kontrollmatrix umgekehrt analog
+		\end{enumerate}
+
+	\subsection{Beispiele}
+		\begin{enumerate}[a)]
+			\item Parity-Check-Code $\mathcal{C}=\lrc{\lrr{c_1,\dots,c_n}:\sum c_i=0}$\\
+				$\lra{n,n-1}$-Code $G$ ist $n\times n$-Einheitsmatrix mit einer zusätzlichen Spalte voller Einsen.
+			\item $\lra{7,4}$-Hamming-Code: $H=\lrv{1001011\\0101101\\0010111}$ Kontrollmatrix
+			\item $\mathcal{C}$ Code mit Erzeugermatrix $\lrv{1001\\0111}$ $\lra{4,2}$-Code über $\mz_2$\\
+				Kontrollmatrix:\\
+				$x_1+x_4=0\\
+				x_2+x_3+x_4=0$\\
+				Basis des Lösungsraums $Hx^t=0$: $\begin{cases}\lrr{1101}\\\lrr{0110}\end{cases}$
+				Also $H=\lrv{1101\\0110}$ ist Kontrollmatrix von $\mathcal{C}$
+		\end{enumerate}
+
+	\subsection{Satz}
+		$\mathcal{C}\neq\lrc{0}, K^n$ ein $\lra{n,k}$-Code über $K$ mit Kontrollmatrix $H$. Dann gilt:\\
+		$d\lrr{\mathcal{C}}=\mbox{wt}\lrr{\mathcal{C}}=\min\lrc{r\in\mn:\mbox{ es gibt in H r linear abhängige Spalten}}$\\
+		$=\max\lrc{r\in\mn:\mbox{ je r-1 Spalten von H sind lin. unabhängig}}$
+
+		\textbf{Beweis}
+
+		Seien $s_1,\dots,s_n$ Spalten von $H$, $s_i\in K^{n-k}$, $\mathcal{C}\neq\lrc{0}, k\geq 1$\\
+		$n-k\leq n-1$ Also $s_1,\dots,s_n$ sind linear abhängig\\
+		Sei $w\in\mn$ minimal mit, sodass es $w$ linear abhängige Spalten gibt $s_{i_1},\dots,s_{i_w}$\\
+		Dann existieren $c_j\in K, j=1,\dots,n$, mit $\ouset{\limsum{j=1}{n}c_j\cdot s_j=0}{}{\smt{(*)}}, c_j\neq 0$ genau für $j=i_1,\dots,i_w$\\
+		Dann auch $\limsum{j=1}{n}c_js_j^t=0$\\
+		$c=\lrr{c_1,\dots,c_n}\quad \lrr{c_1,\dots,c_n}H^t=\lrr{c_1,\dots,c_n}\lrv{s_1^t\\\vdots\\s_n^t}=0$\\
+		$Hc^t=0\Rightarrow c\in\mathcal{C}$. $\mbox{wt}\lrr{c}=w$\\
+		$\mbox{wt}\lrr{\mathcal{C}}\leq\mbox{wt}\lrr{c}=w$\\
+		Angenommen es existiert $0\neq\overline{c}\in\mathcal{C}, \overline{w}=\mbox{wt}\lrr{\overline{c}}<w$ Dann folgt aus $\overline{c}H^t=0$. Dann folgt wie in (*), dass $\overline{w}$ Spalten von $H$ sind linear abhängig \lightning
+
+	\subsection{Beispiel}
+		$\lra{7,4}$-Hamming-Code über $\mz_2$\\
+		Kontrollmatrix: $\lrv{1001011\\0101101\\0010111}$\\
+		Je zwei Spalten sind linear unabhängig, aber 1.,2.,4. Spalte sind linear abhängig\\
+		$\ouset{\Rightarrow}{}{\smt{9.13}} d\lrr{\mathcal{C}}=3$
+
+	\subsection{Satz - Singleton-Schranke}
+		$\mathcal{C}$ linearer $\lra{n,k}$-Code mit $d\lrr{\mathcal{C}}=d$, so ist\\
+		$d\leq n-k+1$ (d.h. $k\leq n-d+1$)
+
+		\textbf{Beweis}
+
+		$\ouset{\Rightarrow}{}{\smt{9.13}} d\leq\mbox{rg}\lrr{H}+1=n-k+1, H$ Kontrollmatrix von $\mathcal{C}$
