@@ -24,24 +24,24 @@
         an, so dass die Anzahl der Einsen im Block der Länge $k+1$ gerade ist
         (also 1 für ungerade, 0 für gerade).\\
         $k=2$:\\
-        $00\rightarrow000\\
-        01\rightarrow011\\
-        10\rightarrow101\\
-        11\rightarrow110$\\
+        $00\rightarrow 000\\
+        01\rightarrow 011\\
+        10\rightarrow 101\\
+        11\rightarrow 110$\\
         1 Fehler wird erkannt (kann nicht korrigiert werden). 2 Fehler können
         nicht erkannt werden.
       \item Wiederholungscode: Nachricht zerlegt in Blöcke der Länge $k$. Jeder
         Block wird $m$ mal gesendet. $k=2$, $m=3$\\
-        $01\rightarrow000000\\
-        01\rightarrow010101\\
+        $01\rightarrow 000000\\
+        01\rightarrow 010101\\
         10\rightarrow101010\\
         11\rightarrow111111$\\
         1 Fehler lässt sich korrigieren.
       \item Codiere Blöcke der Länge 2 wiefolgt:\\
-        $00\rightarrow00000\\
-        01\rightarrow01101\\
-        10\rightarrow10110\\
-        11\rightarrow11011$\\
+        $00\rightarrow 00000\\
+        01\rightarrow 01101\\
+        10\rightarrow 10110\\
+        11\rightarrow 11011$\\
         1- Fehler- korrigierend:\\
         Decodierung: Such das \gqm{nächste} Codeword zum empfangenen Wort. Je
         zwei\\Codewörter unterscheiden sich an mindestens 3 Stellen.\\
@@ -324,3 +324,60 @@
 		\textbf{Beweis}
 
 		$\ouset{\Rightarrow}{}{\smt{9.13}} d\leq\mbox{rg}\lrr{H}+1=n-k+1, H$ Kontrollmatrix von $\mathcal{C}$
+	
+	\subsection{Nebenklassen von Unterräumen}
+		$ \mathcal{C} $ Unterraum von $ V=K^n $. Für jedes $ v\in V $ heißt $ v+\mathcal{C}:=\lrc{v+x|x\in \mathcal{C}} $ die \textbf{Nebenklasse} von $\mathcal{C}$ zu $ v $ ($ v\in c+ \mathcal{C} $, da $ v=v+0 $).
+		\begin{enumerate}[a)]
+			\item $ v_1,v_2\in V $. Dann gilt: $ v_1+ \mathcal{C}=v_1+\mathcal{C} $ oder $ (v_1+\mathcal{C})\mand(v_2+\mathcal{C})=\emptyset $
+			\item $ v_1+c=v_2+c $ $ \Leftrightarrow $ $ v_1-v_2\in \mathcal{C} $ $ \Leftrightarrow $ $ v_1\in v_2+ \mathcal{C} $.\\
+			$ v+\mathcal{C}=\mathcal{C}=\sigma+\mathcal{C} $ $ \Leftrightarrow $ $ v\in \mathcal{C} $
+			\item Wähle aus jeder Nebenklasse einen Vektor $ v_i $. Dann gilt $ V=\overset{\cdot}{\bigcup}(v_i+\mathcal{C}) $
+			\item  $ V $ VR über endlichem Körper $ K $. Dann $ \lrabs{\mathcal{C}}=\lrabs{v+\mathcal{C}} $ für alle $ v\in V $.
+			\item Ist $ \dim(\mathcal{C})=k $, so ist $ \lrabs{\mathcal{C}}=q^k $. $ \lrabs{V}=q^n $, $ \lrabs{v_i+\mathcal{C}}=q^k $. $ \mathcal{C} $ hat genau $ q^{n-k} $ verschiedene Nebenklassen.
+		\end{enumerate}
+
+	\subsection{Syndrom- Decodierung von linearer Codes}
+		$ \mathcal{C}[n,k] $- Code, $ H $ Kontrollmatrix, $ (n-k)\times n $. $ y\in K^n $.\\
+		$ Hy^t\in K^{n-k} $ heißt \textbf{Syndrom} von $ y $.
+		\begin{enumerate}[a)]
+			\item Ist $ y\in \mathcal{C} $ $ \Leftrightarrow $ $ Hx^t=0 $
+			\item $ y_1,y_2\in K^n $. $ y_1,y_2 $ liegen in derselben Nebenklasse von $ \mathcal{C} $ (d.h. $ y_1+\mathcal{C}=y_2+\mathcal{C} $) $ \Leftrightarrow $ $ Hy_1^t=Hy_2^t $\\
+			$ [x_1+\mathcal{C}=y_2+\mathcal{C}\Leftrightarrow y_1-y_2\in \mathcal{C}\Leftrightarrow H(y_1,y_2)^t=0\Leftrightarrow Hy_1^t-Hy_2^t=0] $\\
+			Angenommen, $ x\in \mathcal{C} $ wurde gesendet, $ y=x+f $ wurde empfangen ($ f $ Fehlervektor), so haben $ y $ und $f$ das gleiche Syndrom.
+			
+			\textbf{Hamming- Decodierung:} Bestimme in jeder Nebenklasse von $ \mathcal{C} $ einen Vektor kleinsten Gewichtes (muss nicht eindeutig sein). Dies sei der \textbf{Nebenklassenführer}.\\
+			$ y\in K^n $, $ Hy^t\ \rightarrow $ Nebenklasse $ y+\mathcal{C} $. Wähle Nebenklassenführer $ e $. Decodiere $ y\rightarrow y-e\in \mathcal{C} $.\\
+			Syndrome sind alle Vektoren des $ K^{n-k} $, z.B. $ K=\mz_2 $. Ordne den Nebenklassenführeren entsprechend der lexikographischen geordneten Syndrome.\\
+			Speichern braucht man nur den Nebenklassenführer.
+			
+			\textbf{Beispiel:} $ [50,70] $- Code über $ \mz_2 $.\\
+			$ \mathcal{C} $ hat $ 2^{50} $ Codewörter mit je $ 70 $ Bit.\\
+			$ \mathcal{C} $ hat $ 2^{20} $ Nebenklassen, Nebenklassenführer mit je $ 70 $ Bit $ \rightarrow\approx 8,75 $ MB.
+		\end{enumerate}
+
+\section{Beispiele guter Codes}
+	\subsection{Hamming- Codes}
+		$ K $ endlicher Körper, $ \lrabs{K}=q $, $ q $ Primzahlpotenz. Wähle $ l\in\mn $, konstruiere $ [n,k] $- Code $ \mathcal{C} $ mit $ n=\frac{q^l-1}{q-1} $, $ k=n-l $, $ l\geq 2 $, $d(\mathcal{C})=3$, perfekt.
+		
+		\textbf{Konstuktion:} $ |K^l\mnot\lrc{0}|=q^l-1 $. Jeder eindimensionale Unterraum enthält $ q-1 $ Vektoren $ \neq 0 $.\\
+		Es gibt $ \frac{q^l-1}{q-1} $ viele eindimensionale Unterräume in $ K^l $. Wähle aus jedem der eindimensionalen Unterräume einen Vektor $ \neq 0 $, schreibe ihn als Spaltenvektor der Länge $ l $ in eine Matrix ($ l\times n $- Matrix $ H $, Kontrollmatrix). $ \dim(\mathcal{C})=n-l $.\\
+		Minimalanzahl linear abhängiger Spalten in $ H $. Je zwei Spalten sind linear unabhängig. In $ H $ gibt es 3 linear abhängige Spalten:\\
+		$ \lrv{a\\0\\0\\\vdots\\0},\lrv{0\\b\\0\\\vdots\\0},\lrv{c\\c\\0\\\vdots\\0} $ linear abhängig.\\
+		9.13: $ d(\mathcal{C})=3 $\\
+		$ \lrabs{\mathcal{C}}=\frac{q^n}{\limsum{i=0}{1}\binom{n}{i}(q-1)^i} $\\
+		$ q^{n-l}=1+n(q-1)=1+\frac{q^l-1}{q-1}(q-1)=q^l $
+	
+	\subsection{Beispiel}
+	\subExBegin{a)}
+		\item $ q=2 $, $ l=3 $, $ n=\frac{2^3-1}{2-1}=7 $\\
+		$ H=\lrv{1&0&0&1&0&1&1\\0&1&0&1&1&0&1\\0&0&1&0&1&1&1} $ 8,12 d)
+		\item $ q=3 $, $l=3$, $n=\frac{3^3-1}{3-1}=13$ über $ \mz_3 $\\
+		$ \lrv{1&0&0&1&1&0&0&1&1&1&1&1&2\\0&1&0&1&2&1&1&0&0&1&1&2&1\\0&0&1&0&0&1&2&1&2&1&2&1&1} $ Kontrollmatrix. $ \dim(\mathcal{C})=10 $, $ \lrabs{\mathcal{C}}=3^30=59.049 $
+		\item  $ [7,4] $- Hamming- Code aus a)\\
+		$ y=(1110110)\in \mathcal{C} $\\
+		$ Hy^t=\lrv{0\\0\\1}\neq\lrv{0\\0\\0} $, $ y\in \mathcal{C} $\\
+		Es gibt genau ein $ x\in \mathcal{C} $ mit $ d(x,y)=1 $ ($ \mathcal{C} $ perfekt)\\
+		$ x $ unterscheidet sich von $ y $ and einer Stelle $ i $.\\
+		$ Hy^t=H(x^t+(0,...,0,1,0,...,0))=H(0,...,0,1,0,...,0)=\lrv{h_{1i}\\h_{2i}\\h_{3i}} $\\
+		An welcher Stelle von $ H $ steht $ \lrv{0\\0\\1} $? 3. Stelle: Ändere $ y $ an 3. Stelle: $ y\rightarrow x=\underbrace{(1100110)}_{\in \mathcal{C}} $
+	\subExEnd
