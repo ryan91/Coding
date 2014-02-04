@@ -366,6 +366,8 @@
 		9.13: $ d(\mathcal{C})=3 $\\
 		$ \lrabs{\mathcal{C}}=\frac{q^n}{\limsum{i=0}{1}\binom{n}{i}(q-1)^i} $\\
 		$ q^{n-l}=1+n(q-1)=1+\frac{q^l-1}{q-1}(q-1)=q^l $
+		
+		$d\lrr{\mathcal{C}}\leq n-k+1$ Singleton (Im Fall von $=$ MDS
 	
 	\subsection{Beispiel}
 	\subExBegin{a)}
@@ -381,3 +383,74 @@
 		$ Hy^t=H(x^t+(0,...,0,1,0,...,0))=H(0,...,0,1,0,...,0)=\lrv{h_{1i}\\h_{2i}\\h_{3i}} $\\
 		An welcher Stelle von $ H $ steht $ \lrv{0\\0\\1} $? 3. Stelle: Ändere $ y $ an 3. Stelle: $ y\rightarrow x=\underbrace{(1100110)}_{\in \mathcal{C}} $
 	\subExEnd
+	
+	\subsection{Reed-Solomon-Codes}
+	\subExBegin{a)}
+		\item $K$ Körper, $\lrabs{K}=q$. Wähle $k,n$ mit $1\leq k\leq n\leq q$\\
+			$K\lra{x}_k=\lrc{f\in K\lra{x}: \grad\lrr{f}<k}\quad K$-Vektorraum der Dimension $k$\\
+			Basis: $1,x,\dots,x^{k-1}$\\
+			Wähle $M=\lrr{a_1,\dots,a_n}, q_i\in K, a_i\neq a_j$ für $i\neq j$\\
+			Setze $\mathcal{C}=\mathcal{C}_M=\lrc{\lrr{f(a_1),\dots,f(a_n)}:f\in K\lra{x}_k}\mpo K^n$\\
+			\textbf{Reed-Solomon-Code} oder Auswertungscode
+			
+			Klar: $\mathcal{C}$ ist linearer Code.
+			
+			\subExBegin{(1)}
+				\item $\dim\lrr{\mathcal{C}}=k:$\\
+					$\alpha:\begin{cases}K\lra{x}_k\rightarrow\mathcal{C}\\f\mapsto\lrr{f(a_1),\dots,f(a_n)}\end{cases}\quad K$-lineare Abbildung (surjektiv)\\
+					$\alpha$ ist injektiv: Zeige $\mbox{kern}\lrr{\alpha}=\lrc{\sigma}$\\
+					$f\in\mbox{kern}\lrr{\alpha}$, das heißt $f\lrr{a_1}=\dots=f\lrr{a_n}=0$\\
+					$f$ hat mindestens $n$ verschiedene Nullstellen in $K$\\
+					$\grad\lrr{f}<k\leq n\Rightarrow f=0$\\
+					$\dim\lrr{\mathcal{C}}=\dim\lrr{K\lra{x}_k}=k$
+				\item Nach (1) ist $\alpha\lrr{1},\alpha\lrr{x},\dots,\alpha\lrr{x^{k-1}}$ Basis von $\mathcal{C}$\\
+					Liefert Erzeugermatrix von $\mathcal{C}$\\
+					$G=\lrv{1&\dots&1\\a_1&\dots&a_n\\a_1^2&\dots&a_n^2\\a_1^{k-1}&\dots&a_n^{k-1}}$
+				\item $d\lrr{\mathcal{C}}=n-k+1$ hat höchstens $k-1$ Nullstellen. Das heißt jedes Codewort $\lrr{\neq 0}$ hat mindestens Gewicht $n-\lrr{k-1}=n-k+1$, also $\mbox{wt}\lrr{\mathcal{C}}\geq n-k+1$\\
+					Setze $f=\lrr{x-a_1}\cdot\dots\cdot\lrr{x-a_{k-1}}\in K\lra{x}_k$\\
+					$\mathcal{C}\supseteq\lrr{f(a_1),\dots,f(a_n)}=(\underbrace{0,\dots,0}_{k-1},\underbrace{*,\dots,*}_{\neq 0}$ Gewicht $n-k+1$
+				\item Reed-Solomon-Codes sind MDS-Codes
+			\subExEnd
+		\item Spezielle Reed-Solomon-Codes\\
+			$n=q-1, a_i=a^{i-1}\quad i=1,\dots, q-1=n$, wobei $a$ erzeugendes Element der multiplikativen Gruppe $K^*=K\mnot\lrc{0}=\lrc{a^0=1,a^1=a,\dots,a^{1-2}}$\\
+			$G=\lrv{1&1&\dots&1\\1&a&a^2&\dots&a^{q-2}\\1&a^2&a^4&\dots&a^{2\lrr{q-2}}\\1&a^{k-1}&a^{2\lrr{k-1}}&\dots&a^{\lrr{k-1}\lrr{q-2}}}$\\
+			$d=d\lrr{\mathcal{C}}=n-k+1\quad RS_q\lrr{d}=q-k$\\
+			$a\cdot\lrr{1,a,a^2,\dots, a^{q-2}}=\lrr{a,a^2,a^3,\dots,a^{q-2},1}\in\mathcal{C}$
+			
+			In $RS_q(d)$ ist ein zyklischer Shift jedes Codeworts wieder ein Codewort: \textbf{zyklischer Code}
+			
+			Anwendung: Codierung von Audio-CD's. Häufigster Fehler: Auslöschungen
+	\subExEnd
+	
+\subsection{Lemma}
+	Linearer Code $\mathcal{C}$, $d\lrr{\mathcal{C}}=d, c\in\mathcal{C}$. Bei Übertragung entstehen bis zu $d-1$ Auslöschungen, aber keine weiteren Fehler, dann lässt sich das empfangene Wort korrekt decodieren.
+	
+	Suche Codewort, das an den nicht ausgelöschten stellen mit $y$ übereinstimmt.\\
+	Gäbe es zwei $c,C'$, so $d\lrr{c,c'}\leq d-1\Rightarrow c=c'$
+	
+\subsection{Cross-Interlearing}
+	$\mathcal{C}_1, \mathcal{C}_2\;\; \lra{k_i,n_i}$-Codes mir $i=1,2$ Erzeugermatrix in Standardform $G_i=\lrr{E_{k_i}\mid T_i}, i=1,2$\\
+	Gegeben seien $k_1$ Informationswörter der Länge $k_2$\\
+	$i_1=\lrr{c_{11},\dots,c_{k_21}},\dots,i_{k_1}=\lrr{c_{1k_1},\dots,c_{k_2,k_1}}$\\
+	Codiere mit $\mathcal{C}_2$ (\textbf{äußerer Code}), $i_1,\dots,i_{k_1}\rightarrow c_j=(i_j\underbrace{*\dots*}_{n_2-k_2})$\\
+	Schreibe $c_1,\dots,c_{k_1}$ als Spalten in Matrix
+	
+	$n_2\left\lbrace\begin{array}{cccccccc}
+		\multicolumn{8}{c}{\longleftarrow n_1 \longrightarrow}\\
+		i_1&i_2&\dots&i_{k_1}&*&\dots&*&\in\mathcal{C}_1\\
+		*&*&\dots&*&*&\dots&*&\in\mathcal{C}_1\\
+		\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+		*&*&\dots&*&*&\dots&*&\in\mathcal{C}_1\\
+		\in\mathcal{C}_2&\in\mathcal{C}_2&\dots&\in\mathcal{C}_2&\in\mathcal{C}_2&\in\mathcal{C}_2&\in\mathcal{C}_2&
+	\end{array}\right.$
+	
+	Codiere Zeilen mit \textbf{innerem Code} $\mathcal{C}_1$.\\
+	Lese Matrix zeilenweise aus liefert Wort der Länge $n_1\cdot n_2$ mit $k_1\cdot k_2$ Infosymbolen.\\
+	Angenommen in $w$ tritt ein Burst-Fehler der Länge $\leq\lrr{d_2-1}\cdot n_1$ auf.
+	
+	In einer Spalte der Matrix sind maximal $d_2-1$ Einträge betroffen $\mathcal{C}_2$ kann korrigieren.
+	
+	Audio-CD's: Ausgangscode $RM_{2^8}(5)$ also $\lra{255,251}$-Code\\
+	Verkürzung: $\mathcal{C}_1\;\;\lra{32,28}$-Code $d\lrr{\mathcal{C}_1}=5$ und $\mathcal{C}_2\;\;\lra{28,24}$-Code $d\lrr{\mathcal{C}_2}=5$\\
+	Bursts der Länge $512$ über $\mathbb{F}_{2^8}$ können korrigiert werden.\\
+	Interlering $+$ Interpolarisation $\rightarrow$ Bursts der Länge $\sim 7,5\mbox{ mm}$
