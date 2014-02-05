@@ -5,6 +5,8 @@
 # valid input parameters are:
 #	true, 1, yes
 # 	false, 0, no
+# if you're using Windows, uninstall it, install Linux and try again running
+# this
 if [ ${#} == 1 ]; then
 	COMPILEALL=''
 	FILENAME='Coding'
@@ -15,10 +17,15 @@ if [ ${#} == 1 ]; then
 	else
 		echo "Unknown identifier"
 		exit 1
-	fi 
+	fi
 	if [ -e "$FILENAME.tex" ]; then
-		cat "$FILENAME.tex" | sed -E "s/(\\\\setboolean\{.*\}\{).*\}/\1$COMPILEALL}/" |
-			 pdflatex --jobname "$FILENAME"	
+       cat "${FILENAME}.tex" | sed -E "s/(\\\\setboolean\{.*\}\{).*\}/\1$COMPILEALL}/" |
+           pdflatex -shell-escape --jobname "${FILENAME}" | grep -q "rerunfilecheck.*File.*has changed"
+        if [ $? -eq 0 ]; then
+            echo "compile again for table of contents..."
+            cat "${FILENAME}.tex" | sed -E "s/(\\\\setboolean\{.*\}\{).*\}/\1$COMPILEALL}/" |
+                pdflatex -shell-escape --jobname "${FILENAME}" > /dev/null
+        fi
 	else
 		echo "Could not find file: $FILENAME.tex"
 		exit 1
