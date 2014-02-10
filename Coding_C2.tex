@@ -1,3 +1,4 @@
+\setcounter{section}{0}
 \newpage
 \begin{center}
   \huge{Codierungstheorie}
@@ -13,7 +14,7 @@
 			\item Aufwand für Codierung und Decodierung soll nicht zu hoch sein.
 		\end{itemize}
 		Grundprinzip: Hinzufügen systematischer Redundanz.\\
-		Fehlererkennung: Geringe Redundanz
+		Fehlererkennung: Geringe Redundanz\\
 		Fehlerkorrektur: Größere Redundanz, größerer Aufwand
 	
 	\subsection{Beispiele}
@@ -28,18 +29,18 @@
 				11\rightarrow 110$\\
 				1 Fehler wird erkannt (kann nicht korrigiert werden). 2 Fehler können nicht erkannt werden.
 			\item Wiederholungscode: Nachricht zerlegt in Blöcke der Länge $k$. Jeder Block wird $m$ mal gesendet. $k=2$, $m=3$\\
-				$01\rightarrow 000000\\
+				$00\rightarrow 000000\\
 				01\rightarrow 010101\\
 				10\rightarrow101010\\
 				11\rightarrow111111$\\
 				1 Fehler lässt sich korrigieren.
-			\item Codiere Blöcke der Länge 2 wiefolgt:\\
+			\item Codiere Blöcke der Länge 2 wie folgt:\\
 				$00\rightarrow 00000\\
 				01\rightarrow 01101\\
 				10\rightarrow 10110\\
 				11\rightarrow 11011$\\
 				1- Fehler- korrigierend:\\
-				Decodierung: Such das \gqm{nächste} Codeword zum empfangenen Wort. Je zwei\\Codewörter unterscheiden sich an mindestens 3 Stellen.\\
+				Decodierung: Such das \gqm{nächste} Codewort zum empfangenen Wort. Je zwei\\Codewörter unterscheiden sich an mindestens 3 Stellen.\\
 				2- Fehler- erkennend: Kann jedoch nicht korrigiert werden, da Abstand zu\\
 				zwei gültigen Worten 2 ist.
 		\end{enumerate}
@@ -69,46 +70,43 @@
 		Elemente von $\mathcal{C}$: \textbf{Codewörter}\\
 		$S=\lrc{0,1}$: \textbf{binärer Blockcode}\\
 		Klar ist $\lrabs{\mathcal{C}}\leq\lrabs{S^n}=\lrabs{S}^n$\\
-		Ist $\lrabs{\mathcal{C}}=m$, so lassen sich $m$ Informationssymbole (oder Blöcke) durch je ein Codewort coieren.
+		Ist $\lrabs{\mathcal{C}}=m$, so lassen sich $m$ Informationssymbole (oder Blöcke) durch je ein Codewort codieren.
 	
-	\subsection{Definition}
+	\subsection{Definition: Hamming- Abstand}
 		$S$ endliches Alphabet, $n\in\mn$\\
-		$a=\lrr{S_1,\dots,S_n}, b=\lrr{t_1,\dots,t_n}\in S^n$\\
+		$a=\lrr{s_1,\dots,s_n}, b=\lrr{t_1,\dots,t_n}\in S^n$\\
 		$d\lrr{a,b}=\lrabs{\lrc{i:1\leq i\leq n, s_i\neq t_i}}$ \textbf{Hamming-Abstand} von $a$ und $b$\\
 		(R.W. Hamming, 1915-1998; C. Shannon)
 		
 	\subsection{Bemerkung}
 		\subExBegin{a)}
-			\item $a,b,c\in S^n \Rightarrow d\lrr{a,c}\leq d\lrr{a,b}+d\lrr{b,c}$ (Dreiecksungleichung)
-			
+			\item $a,b,c\in S^n$. Dann gilt $d\lrr{a,c}\leq d\lrr{a,b}+d\lrr{b,c}$ (Dreiecksungleichung)\\
 				$a=\lrr{a_1,\dots,a_n}, b=\lrr{b_1,\dots,b_n}, c=\lrr{c_1,\dots,c_n}$\\
-				$\Rightarrow a_i\neq c_i\Rightarrow a_i\neq b_i$ oder $c_i\neq b_i$
+				Es gilt $a_i\neq c_i\Rightarrow a_i\neq b_i$ oder $c_i\neq b_i$
 			\item Ist $S$ abelsche Gruppe (bzgl. $+$), so gilt\\
 				$\forall a,b,c\in S^n: d\lrr{a,b}=d\lrr{a+c,b+c}$\\
 				$\lrr{a_1,\dots,a_n}+\lrr{c_1,\dots,c_n}:=\lrr{a_1+c_1,\dots, a_n+c_n}$
 			\item Wird $x\in\mathcal{C}$ gesendet und $y\in S^n$ empfangen und $d\lrr{x,y}=k$, so sind $k$ Fehler aufgetreten.
 		\subExEnd
-		
+	
+	\newpage
 	\subsection{Definition}
 		\subExBegin{a)}
-			\item \textbf{Hamming-Decodierung} für Blockcode $\mathcal{C}\mpo S^n$
-			
+			\item \textbf{Hamming-Decodierung} für Blockcode $\mathcal{C}\mpo S^n$\\
 				Wird $y\in S^n$ empfangen, so wird $y$ als ein $x'\in\mathcal{C}$ decodiert mit\\
 				$d\lrr{x',y}=\min\lrc{d\lrr{x,y}:x\in\mathcal{C}}$ (nicht notwendig eindeutig!)\\
 				Hamming-Decodierung ist bestmöglich, wenn alle Codewörter mit der gleichen\\Wahrscheinlichkeit $p<\frac{1}{2}$ gestört werden und wenn jedes Codewort gleich wahrscheinlich ist.
 			\item $\mathcal{C}$ Blockcode in $S^n$, $\lrabs{\mathcal{C}}>1$\\
-				\textbf{Minimalabstand} $d\lrr{\mathcal{C}}$ von $\mathcal{C}$: $d\lrr{\mathcal{C}}=\min\lrc{d\lrr{x,y}:x,y\in\mathcal{C} x\neq y}$
+				\textbf{Minimalabstand} $d\lrr{\mathcal{C}}$ von $\mathcal{C}$: $d\lrr{\mathcal{C}}=\min\lrr{\lrc{d\lrr{x,y}:x,y\in\mathcal{C}:\ x\neq y}}$
 			\item Blockcode $\mathcal{C}$ heißt \textbf{t-Fehler-korrigierend}, falls $d\lrr{\mathcal{C}}\geq 2t+1$, $\mathcal{C}$ heißt \textbf{t-Fehler-erkennend}, falls $d\lrr{\mathcal{C}}\geq t+1$
 		\subExEnd
 		
 	\subsection{Bemerkung}
 		\subExBegin{a)}
-			\item Ist $d\lrr{\mathcal{C}}\geq 2t+1$, so sind die \gqm{Kugeln} vom Radius $t$ um Codewörter $x\in\mathcal{C}$, $K_t\lrr{x}=\lrc{y\in S^n: d\lrr{x,y}\leq t}$, sind disjunkt.
-			
-				Angenommen $x\in\mathcal{C}$ wird gesendet, $y\in S^n$ wird empfangen, maximal $t$ Fehler seien aufgetreten. $d\lrr{x,y}\leq t$ Bei Hamming-Decodierung wird dann $y$ wieder zu $x$ decodiert, denn jedes andere $x'\in\mathcal{C}$ hat Abstand $>t$ von $y$.
+			\item Ist $d\lrr{\mathcal{C}}\geq 2t+1$, so sind die \gqm{Kugeln} vom Radius $t$ um Codewörter $x\in\mathcal{C}$, $K_t\lrr{x}=\lrc{y\in S^n: d\lrr{x,y}\leq t}$, sind disjunkt.\\
+				Angenommen $x\in\mathcal{C}$ wird gesendet, $y\in S^n$ wird empfangen, maximal $t$ Fehler seien aufgetreten $(d\lrr{x,y}\leq t)$. Bei Hamming-Decodierung wird dann $y$ wieder zu $x$ decodiert, denn jedes andere $x'\in\mathcal{C}$ hat Abstand $>t$ von $y$.
 				
-			\item Ist $d\lrr{\mathcal{C}}\geq t+1$, $x\in\mathcal{C}$ wird gesendet, $y\in S^n$ empfangen, max. $t$ Fehler seien aufgetreten.\\
-				$d\lrr{x,y}\leq t$. Also ist $y\notin\mathcal{C}$ (falls mindestens ein Fehler aufgtreten ist.
+			\item Ist $d\lrr{\mathcal{C}}\geq t+1$, $x\in\mathcal{C}$ wird gesendet, $y\in S^n$ empfangen, max. $t$ Fehler seien aufgetreten. $d\lrr{x,y}\leq t$. Also ist $y\notin\mathcal{C}$ (falls mindestens ein Fehler aufgtreten ist).
 		\subExEnd
 		
 	\subsection{Beispiele}
@@ -125,9 +123,9 @@
 				$d\lrr{\mathcal{C}}\geq 2t+1$ Für alle $x,x'\in \mathcal{C}, x\neq x': K_t\lrr{x}\mand K_t\lrr{x'}=\mvoid$
 		\subExEnd
 		
-	\subsection{Definition}
-		Sei $\mathcal{C}$ Blockcode über $S$ der Länge $n$.\\
-		$\mathcal{C}$ heißt \textbf{perfekt}, falls es $t\in\mn_0$ gibt mit $S^n=\ouset{\mor}{\bullet}{x\in\mathcal{C}}K_t\lrr{x}$ (disjunkte Vereinigung)
+	\subsection{Definition: Perfekte Codes}
+		Sei $\mathcal{C}$ Blockcode über $S$ der Länge $n$.
+		$\mathcal{C}$ heißt \textbf{perfekt}, falls es $t\in\mn_0$ gibt mit \[S^n=\bigcup_{x\in\mathcal{C}}^{\cdot}K_t\lrr{x}\quad\mbox{(disjunkte Vereinigung)}\]
 	
 	\subsection{Bemerkung}
 		Ist $ \mathcal{C} $ perfekt, $ \lrabs{\mathcal{C}}>1 $, $ t $ wie in 8.7, dann ist $ d(\mathcal{C})=2t+1 $.
@@ -139,19 +137,19 @@
 		Also: $ d(\mathcal{C})\geq 2t+1 $
 		
 	\subsection{Lemma}
-		$ \lrabs{S}=q $, $ x_t\in S^n $, $ t\in\mn_0 $. Dann ist $ \lrabs{K_t(x)}=\limsum{i=0}{t}\binom{n}{i}(q-1)^i $
+		$ \lrabs{S}=q $, $ x_t\in S^n $, $ t\in\mn_0 $. Dann ist
+		\[\lrabs{K_t(x)}=\limsum{i=0}{t}\binom{n}{i}(q-1)^i\]
 		
 		\textbf{Beweis:} $ x\in S^n $. Wie viele Wörter haben Abstand $ i $ von $ x $?\\
 		Wähle $ i $ Positionen aus $ \lrc{i,...,n} $ aus: $ \binom{n}{i} $ Möglichkeiten.
-		Bei Auswahl dieser Positionen: $ (q-1)^i $ Möglichkeiten, ein Wort auszuwählen, dass sich von $ x $ an diesen $ i' $ Positionen unterscheidet.\\
-		gibt es insgesamt $ \binom{n}{i}(q-1)^i $ Wörter, die den Abstand $ i $ haben. In einer Kugel müssen diese noch aufsummiert werden.
+		Bei Auswahl dieser Positionen: $ (q-1)^i $ Möglichkeiten, ein Wort auszuwählen, dass sich von $ x $ an diesen $ i' $ Positionen unterscheidet. Also gibt es insgesamt $ \binom{n}{i}(q-1)^i $ Wörter, die den Abstand $ i $ haben. In einer Kugel müssen diese noch aufsummiert werden.
 		
 	\subsection{Satz}
-		Sei $ \mathcal{C} $ ein Code der Länge $ n $ über $ S $, $ \lrabs{\mathcal{C}}=1 $, $ \lrabs{S}=q $. Sei $ t\in\mn_0 $ maximal mit $ d(\mathcal{C})\geq 2t+1 $, d.h. $ t=\lfloor\frac{d(\mathcal{C}) -1}{2}\rfloor $.
+		Sei $ \mathcal{C} $ ein Code der Länge $ n $ über $ S $, $ \lrabs{\mathcal{C}}>1 $, $ \lrabs{S}=q $. Sei $ t\in\mn_0 $ maximal mit $ d(\mathcal{C})\geq 2t+1 $, d.h. $ t=\lfloor\frac{d(\mathcal{C}) -1}{2}\rfloor $.
 		\begin{enumerate}[a)]
 			\item  Hamming- Schranke, Kugelpackungsraum $ K_0 $.
-			\[\lrabs{\mathcal{C}}=\dfrac{q^n}{\limsum{i=0}{t}\binom{n}{i}(q-1)^i}\]
-			\item  $ \mathcal{C} $ ist perfekt $ \Leftrightarrow $ in a) gilt Gleichheit.
+			\[\lrabs{\mathcal{C}}\leq\dfrac{q^n}{\limsum{i=0}{t}\binom{n}{i}(q-1)^i}\]
+			\item  $ \mathcal{C} $ ist perfekt $ \Leftrightarrow $ \[\lrabs{\mathcal{C}}=\dfrac{q^n}{\limsum{i=0}{t}\binom{n}{i}(q-1)^i}\]
 		\end{enumerate}
 		
 		\textbf{Beweis:}
@@ -171,7 +169,7 @@
 			\item $ \mathcal{C}=S^n\quad (t=0) $
 			\item  $ n=2t+1 $, $ \mathcal{C}=\lrc{(0,...,0),(1,...,1)} $ perfekt
 			\item $ S=\mz_2=\lrc{0,1} $\\
-			$ \mathcal{C}=\lrc{(c_1,...,c_7)\in\mz_2^7:c_1+c_4+c_6+c_7=0,\ c_2+c_4+c_5+c_7=0,\ c_3+c_5+c_6+c_7} $\\
+			$ \mathcal{C}=\{(c_1,...,c_7)\in\mz_2^7:c_1+c_4+c_6+c_7=0,\ c_2+c_4+c_5+c_7=0,\  c_3+c_5+c_6+c_7=0\} $\\
 			$ \lrabs{\mathcal{C}}=2^4,\ d(\mathcal{C})=3 $ (nachrechnen)\\
 			\textbf{links:} $ \lrabs{\mathcal{C}}=2^4 $\\
 			\textbf{rechts:} $ \frac{2^7}{1+7}=2^4 $\\
@@ -181,13 +179,13 @@
 \section{Lineare Codes}
 	\subsection{Definition}
 		$ K $ endlicher Körper, $ n\in\mn $.\\
-		Ein \textbf{linearer Code} $ \mathcal{C} $ ist ein Unterraum des Vektorraums $ K^n $ (d.h. Alph$ =k $).\\
-		Ist $ \dim(\mathcal{C})=k(\leq m) $, so heißt $ \mathcal{C} $ ein $ [n,k] $- Code.\\
+		Ein \textbf{linearer Code} $ \mathcal{C} $ ist ein Unterraum des Vektorraums $ K^n $ (d.h. $\alpha=k $).\\
+		Ist $ \dim(\mathcal{C})=k\ (k\leq n) $, so heißt $ \mathcal{C} $ ein $ [n,k] $- Code.\\
 		Ist $ \lrabs{K}=q $, $ \dim(\mathcal{C})=k $, dann $ \lrabs{\mathcal{C}}=q^k $.\\
 		$ \mathcal{C} $ hat Basis $ w_1,...,w_k $, $ \mathcal{C}=\lrc{a_1w_1+...+a_kw_k:\ a_i\in K} $
 	
 	\subsection{Bemerkung}
-		$ \mz_p={0,...,p-1} $ ist Körper bezüglich Addition und Multiplikation $ \mod p $, falls $ p $ eine Primzahl ist.\\
+		$ \mz_p=\lrc{0,...,p-1} $ ist Körper bezüglich Addition und Multiplikation $ \mod p $, falls $ p $ eine Primzahl ist.\\
 		Körper von Ordnung $ p^m $: Irreduzibles Polynom $ g $ vom Grad $ m $ über $ \mz_p $.\\
 		$ K=\lrc{f\in\mz_p[x]:\grad(f)<m} $, $ \lrabs{K}=p^m $\\
 		Addition und Multiplikation $ \mod g $.\\
@@ -196,14 +194,14 @@
 	\subsection{Beispiel}
 		\subExBegin{a)}
 		\item $ n $- facher Wiederholungscode über $ \mz_p $.\\
-		$ \mathcal{C}=\lrc{(0,...,0),(1,...,1),...,(p-1,...,p-1)}=\lrg{(1,...,1)} $ $ [1,n] $- Coder über $ \mz_p $.\\
+		$ \mathcal{C}=\lrc{(0,...,0),(1,...,1),...,(p-1,...,p-1)}=\lrg{(1,...,1)} $ $ [n,1] $- Code über $ \mz_p $.\\
 		$ d(\mathcal{C})=n $
-		\item Hamming- Code (8.12 d)) ist \textbf{linearer} $ [4,7] $- Code über $ \mz_2 $, $ d(\mathcal{C})=3 $ (als Lösungsraum eines homogenen, linearen LGS über $ \mz_2 $).
-		\item $ n\geq 2 $. $ \mathcal{C}=\lrc{(c_1,...,c_n):\ \limsum{i=1}{n}c_i=0}\mpo K^n $ linearer $ [n-1,n] $- Code.\\
+		\item Hamming- Code (8.12 d)) ist \textbf{linearer} $ [7,4] $- Code über $ \mz_2 $, $ d(\mathcal{C})=3 $ (als Lösungsraum eines homogenen, linearen LGS über $ \mz_2 $).
+		\item $ n\geq 2 $. $ \mathcal{C}=\lrc{(c_1,...,c_n):\ \limsum{i=1}{n}c_i=0}\mpo K^n $ linearer $ [n,n-1] $- Code.\\
 		$ K=\mz_2 $: Parity- Check- Code
 		\subExEnd
 		
-	\subsection{Definition}
+	\subsection{Definition: (Minimal-) Gewicht}
 		$ K $ endlicher Körper.
 		\begin{enumerate}[a)]
 			\item $ x= (x_1,...,x_n)\in K^n$. $ wt(x)=d(x,0)=\lrabs{\lrc{i:\ x_i\neq 0}} $ Gewicht von $ x $.
@@ -219,10 +217,10 @@
 		$ =\min\lrc{d(\underbrace{x-x'}_{\in\mathcal{C}},0):\ x,x'\in\mathcal{C},\ x\neq x'} $\\
 		$ =\min\lrc{d(y,0):\  \neq y\in\mathcal{C}}=wt(\mathcal{C}) $.
 		
-	\subsection{Definition}
+	\subsection{Definition: Generatormatrix}
 		$\mathcal{C}\lra{n,k}$-Code über $K$.\\
 		Sei $g_1=\lrr{g_{11},\dots,g_{1n}},\dots,g_k=\lrr{g_{k1},\dots,g_{kn}}$ Basis von $\mathcal{C}$\\
-		$G=\lrv{g_1\\\vdots\\g_k}=\lrv{g_{11}\dots g_{1n}\\\vdots\\g_{k1}\dots g_{kn}},\; k\times n$-Matrix, \textbf{Erzeugermatrix} (oder \textbf{Generatormatrix}) von $\mathcal{C}$
+		$G=\lrv{g_1\\\vdots\\g_k}=\lrv{g_{11}\dots g_{1n}\\\vdots\\g_{k1}\dots g_{kn}},\; k\times n$-Matrix, \textbf{Erzeugermatrix} (\textbf{Generatormatrix}) von $\mathcal{C}$
 
 	\subsection{Satz}
 		$G$ Erzeugermatrix von $\lra{n,k}$-Code $\mathcal{C}$. Dann gilt $\mathcal{C}=\lrc{uG\mid u\in K^k}$.
@@ -248,17 +246,17 @@
 		$c_4,c_5,c_6,c_7$ frei wählbar $\rightarrow c_1,c_2,c_3$ sind dann bestimmt.\\
 		Basis von $\mathcal{C}$: $\lrv{1&1&1&0&0&0&1},\lrv{1&0&1&0&0&1&0},\lrv{0&1&1&0&1&0&0},\lrv{1&1&0&1&0&0&0}$\\
 		Erzeugermatrix $G=\lrv{1110001\\1010010\\0110100\\1101000}\ouset{\Rightarrow}{\smt{elem.}}{\smt{Umf.}}\lrv{1110001\\0100011\\0110100\\0011001}\ouset{\Rightarrow}{\smt{elem.}}{\smt{Umf.}} G'=\lrv{1000101\\0100011\\0010111\\0001110}$ Erzeugermatrix in \textbf{Standardform} von $\mathcal{C}$.(Muss nicht existieren)\\
-		Codierung mit $G'$: $\lrr{u_1,u_2,u_3,u_4}G'=\lrv{u_1,u_2,u_3,u_4,u_1+u_3+u_4,u_2+u_3+u_4,u_1+u_2+u_3}\in\mathcal{C}$
+		Codierung mit $G'$: $\lrv{u_1,u_2,u_3,u_4}G'=\lrv{u_1,u_2,u_3,u_4,u_1+u_3+u_4,u_2+u_3+u_4,u_1+u_2+u_3}\in\mathcal{C}$
 
 	\subsection{Satz und Definition}
 		$\mathcal{C}$ sei ein $\lra{n,k}$-Code über $K$. Dann existiert $\lrr{n-k}\times n$-Matrix $H$ so dass gilt:\\
 		$y\in K^n: y\in\mathcal{C}\Leftrightarrow Hy^t=0\in K^{n-k}$\\
 		$H$ heißt \textbf{Kontrollmatrix} von $\mathcal{C}$\\
 		Es ist $\mbox{rg}\lrr{H}=n-k$\\
-		(Dann gilt auch $H\cdot G^t=0$, also genau die $\lrr{n-k}\times k$-Nullmatrix, falls $G$ Erzeugermatrix von $\mathcal{C}$
-
-		\textbf{Beweis}
-
+		(Dann gilt auch $H\cdot G^t=0$, also genau die $\lrr{n-k}\times k$-Nullmatrix, falls $G$ Erzeugermatrix von $\mathcal{C}$)
+		
+		\newpage
+		\textbf{Beweis}\\
 		Sei $g_1,\dots,g_k$ Basis von $\mathcal{C}$, $G=\lrv{g_1\\\vdots\\g_k},g_i=\lrr{g_{i1},\dots,g_{in}}$
 		LGS:\\
 		$x_1g_{11}+\dots+x_ng_{1n}=0\\
@@ -268,12 +266,12 @@
 		$\mbox{rg}\lrr{G}=k$ Dimension des Lösungsraums ist $n-k$\\
 		$h_1,\dots,h_{n-k}$ ist Basis des Lösungsraums,\\
 		$Hg_i^t=\lrv{h_1g_i^t\\\vdots\\h_ng_i^t}=0,i=1,\dots,k\Rightarrow Hy^t=0\forall y\in\mathcal{C}$\\
-		LGS ($Hy^t$), Kowffizientenmatrix hat Rang $n-k$ Lösungsraum $\mathcal{C}$ hat $\dim\lrr{k}$
+		LGS ($Hy^t$), Koeffizientenmatrix hat Rang $n-k$ Lösungsraum $\mathcal{C}$ hat $\dim\lrr{k}$
 		
 	\subsection{Bemerkung}
 		\begin{enumerate}[a)]
 			\item Kontrollmatrix kann zur Fehlererkennung verwendet werden
-			\item Beweis von 9.10: erzeugermatrix $\rightarrow$ Kontrollmatrix umgekehrt analog
+			\item Beweis von 9.10: Erzeugermatrix $\rightarrow$ Kontrollmatrix umgekehrt analog
 		\end{enumerate}
 
 	\subsection{Beispiele}
@@ -285,7 +283,7 @@
 				Kontrollmatrix:\\
 				$x_1+x_4=0\\
 				x_2+x_3+x_4=0$\\
-				Basis des Lösungsraums $Hx^t=0$: $\begin{cases}\lrr{1101}\\\lrr{0110}\end{cases}$
+				Basis des Lösungsraums $Hx^t=0$: $\begin{cases}\lrr{1101}\\\lrr{0110}\end{cases}$\\
 				Also $H=\lrv{1101\\0110}$ ist Kontrollmatrix von $\mathcal{C}$
 		\end{enumerate}
 
@@ -316,15 +314,14 @@
 		$\mathcal{C}$ linearer $\lra{n,k}$-Code mit $d\lrr{\mathcal{C}}=d$, so ist\\
 		$d\leq n-k+1$ (d.h. $k\leq n-d+1$)
 
-		\textbf{Beweis}
-
+		\textbf{Beweis}\\
 		$\ouset{\Rightarrow}{}{\smt{9.13}} d\leq\mbox{rg}\lrr{H}+1=n-k+1, H$ Kontrollmatrix von $\mathcal{C}$
 	
 	\subsection{Nebenklassen von Unterräumen}
 		$ \mathcal{C} $ Unterraum von $ V=K^n $. Für jedes $ v\in V $ heißt $ v+\mathcal{C}:=\lrc{v+x|x\in \mathcal{C}} $ die \textbf{Nebenklasse} von $\mathcal{C}$ zu $ v $ ($ v\in c+ \mathcal{C} $, da $ v=v+0 $).
 		\begin{enumerate}[a)]
-			\item $ v_1,v_2\in V $. Dann gilt: $ v_1+ \mathcal{C}=v_1+\mathcal{C} $ oder $ (v_1+\mathcal{C})\mand(v_2+\mathcal{C})=\emptyset $
-			\item $ v_1+c=v_2+c $ $ \Leftrightarrow $ $ v_1-v_2\in \mathcal{C} $ $ \Leftrightarrow $ $ v_1\in v_2+ \mathcal{C} $.\\
+			\item $ v_1,v_2\in V $. Dann gilt: $ v_1+ \mathcal{C}=v_2+\mathcal{C} $ oder $ (v_1+\mathcal{C})\mand(v_2+\mathcal{C})=\emptyset $
+			\item $ v_1+\mathcal{C}=v_2+\mathcal{C} $ $ \Leftrightarrow $ $ v_1-v_2\in \mathcal{C} $ $ \Leftrightarrow $ $ v_1\in v_2+ \mathcal{C} $.\\
 			$ v+\mathcal{C}=\mathcal{C}=\sigma+\mathcal{C} $ $ \Leftrightarrow $ $ v\in \mathcal{C} $
 			\item Wähle aus jeder Nebenklasse einen Vektor $ v_i $. Dann gilt $ V=\overset{\cdot}{\bigcup}(v_i+\mathcal{C}) $
 			\item  $ V $ VR über endlichem Körper $ K $. Dann $ \lrabs{\mathcal{C}}=\lrabs{v+\mathcal{C}} $ für alle $ v\in V $.
@@ -335,14 +332,14 @@
 		$ \mathcal{C}[n,k] $- Code, $ H $ Kontrollmatrix, $ (n-k)\times n $. $ y\in K^n $.\\
 		$ Hy^t\in K^{n-k} $ heißt \textbf{Syndrom} von $ y $.
 		\begin{enumerate}[a)]
-			\item Ist $ y\in \mathcal{C} $ $ \Leftrightarrow $ $ Hx^t=0 $
+			\item Ist $ y\in \mathcal{C} $ $ \Leftrightarrow $ $ Hy^t=0 $
 			\item $ y_1,y_2\in K^n $. $ y_1,y_2 $ liegen in derselben Nebenklasse von $ \mathcal{C} $ (d.h. $ y_1+\mathcal{C}=y_2+\mathcal{C} $) $ \Leftrightarrow $ $ Hy_1^t=Hy_2^t $\\
 			$ [x_1+\mathcal{C}=y_2+\mathcal{C}\Leftrightarrow y_1-y_2\in \mathcal{C}\Leftrightarrow H(y_1,y_2)^t=0\Leftrightarrow Hy_1^t-Hy_2^t=0] $\\
 			Angenommen, $ x\in \mathcal{C} $ wurde gesendet, $ y=x+f $ wurde empfangen ($ f $ Fehlervektor), so haben $ y $ und $f$ das gleiche Syndrom.
 			
 			\textbf{Hamming- Decodierung:} Bestimme in jeder Nebenklasse von $ \mathcal{C} $ einen Vektor kleinsten Gewichtes (muss nicht eindeutig sein). Dies sei der \textbf{Nebenklassenführer}.\\
 			$ y\in K^n $, $ Hy^t\ \rightarrow $ Nebenklasse $ y+\mathcal{C} $. Wähle Nebenklassenführer $ e $. Decodiere $ y\rightarrow y-e\in \mathcal{C} $.\\
-			Syndrome sind alle Vektoren des $ K^{n-k} $, z.B. $ K=\mz_2 $. Ordne den Nebenklassenführeren entsprechend der lexikographischen geordneten Syndrome.\\
+			Syndrome sind alle Vektoren des $ K^{n-k} $, z.B. $ K=\mz_2 $. Ordne den Nebenklassenführern entsprechend der lexikographischen geordneten Syndrome.\\
 			Speichern braucht man nur den Nebenklassenführer.
 			
 			\textbf{Beispiel:} $ [50,70] $- Code über $ \mz_2 $.\\
@@ -362,14 +359,14 @@
 		$ \lrabs{\mathcal{C}}=\frac{q^n}{\limsum{i=0}{1}\binom{n}{i}(q-1)^i} $\\
 		$ q^{n-l}=1+n(q-1)=1+\frac{q^l-1}{q-1}(q-1)=q^l $
 		
-		$d\lrr{\mathcal{C}}\leq n-k+1$ Singleton (Im Fall von $=$ MDS
+		$d\lrr{\mathcal{C}}\leq n-k+1$ Singleton (Im Fall von $=$ MDS)
 	
 	\subsection{Beispiel}
 		\subExBegin{a)}
 			\item $ q=2 $, $ l=3 $, $ n=\frac{2^3-1}{2-1}=7 $\\
 				$ H=\lrv{1&0&0&1&0&1&1\\0&1&0&1&1&0&1\\0&0&1&0&1&1&1} $ 8,12 d)
 			\item $ q=3 $, $l=3$, $n=\frac{3^3-1}{3-1}=13$ über $ \mz_3 $\\
-				$ \lrv{1&0&0&1&1&0&0&1&1&1&1&1&2\\0&1&0&1&2&1&1&0&0&1&1&2&1\\0&0&1&0&0&1&2&1&2&1&2&1&1} $ Kontrollmatrix. $ \dim(\mathcal{C})=10 $, $ \lrabs{\mathcal{C}}=3^30=59.049 $
+				$ \lrv{1&0&0&1&1&0&0&1&1&1&1&1&2\\0&1&0&1&2&1&1&0&0&1&1&2&1\\0&0&1&0&0&1&2&1&2&1&2&1&1} $ Kontrollmatrix. $ \dim(\mathcal{C})=10 $, $ \lrabs{\mathcal{C}}=3^{30}=59.049 $
 			\item  $ [7,4] $- Hamming- Code aus a)\\
 				$ y=(1110110)\in \mathcal{C} $\\
 				$ Hy^t=\lrv{0\\0\\1}\neq\lrv{0\\0\\0} $, $ y\in \mathcal{C} $\\
@@ -403,7 +400,7 @@
 						$G=\lrv{1&\dots&1\\a_1&\dots&a_n\\a_1^2&\dots&a_n^2\\a_1^{k-1}&\dots&a_n^{k-1}}$
 					\item $d\lrr{\mathcal{C}}=n-k+1$ hat höchstens $k-1$ Nullstellen. Das heißt jedes Codewort $\lrr{\neq 0}$ hat mindestens Gewicht $n-\lrr{k-1}=n-k+1$, also $\mbox{wt}\lrr{\mathcal{C}}\geq n-k+1$\\
 						Setze $f=\lrr{x-a_1}\cdot\dots\cdot\lrr{x-a_{k-1}}\in K\lra{x}_k$\\
-						$\mathcal{C}\supseteq\lrr{f(a_1),\dots,f(a_n)}=(\underbrace{0,\dots,0}_{k-1},\underbrace{*,\dots,*}_{\neq 0}$ Gewicht $n-k+1$
+						$\mathcal{C}\supseteq\lrr{f(a_1),\dots,f(a_n)}=(\underbrace{0,\dots,0}_{k-1},\underbrace{*,\dots,*}_{\neq 0}$) Gewicht $n-k+1$
 					\item Reed-Solomon-Codes sind MDS-Codes
 				\subExEnd
 			\item Spezielle Reed-Solomon-Codes\\
