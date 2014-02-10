@@ -324,8 +324,7 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 				$\lrv{b_{00}&b_{01}&b_{02}&b_{03}\\b_{10}&b_{11}&b_{12}&b_{13}\\b_{20}&b_{21}&b_{22}&b_{23}\\b_{30}&b_{31}&b_{32}&b_{33}}\rightarrow\lrv{b_{00}&b_{01}&b_{02}&b_{03}\\b_{11}&b_{12}&b_{13}&b_{10}\\b_{22}&b_{23}&b_{20}&b_{21}\\b_{33}&b_{30}&b_{31}&b_{32}}$
 			\item \textbf{Mix Columns}\\
 				Jedes Byte in der $4\times 4$-Input-Matrix wird als Element des $\mathbb{F}_{2^8}$ aufgefasst. \\
-				Multipliziere diese $4\times 4$-Matrix von links $M=\lrv{x&x+1&1&1\\1&x&x+1&1\\1&1&x&x+1\\x+1&1&1&x}$\\
-				$M\cdot\lrv{p_{00}&\\p_{10}&x\times x\\p_{20}&\\p_{30}&} = \lrv{xp_{00}+xp_{10}+p_{10}+p_{20}+p_{30}\\p_{00}+xp_{10}+xp_{20}+p_{20}+p_{30}}$\\
+				Multipliziere diese $4\times 4$-Matrix von links mit $M=\lrv{x&x+1&1&1\\1&x&x+1&1\\1&1&x&x+1\\x+1&1&1&x}$\\
 				Dabei ist $\cdot$ in der Regel $\odot$ in $\mathbb{F}_{2^8}$
 		\end{itemize}
 	
@@ -437,7 +436,7 @@ Speicherbedarf für einen Schlüssel: $\underbrace{|*...*|*...*|\dots\dots\dots|
 	\subsection{Berechnung modularer Potenzen}
 		Ziel: $m^e\mod n$ berechnen\\
 		Problem: Overflow\\
-		$e=\limsum{i=0}{k}e_i\cdot 2^i$ wobe $e_k=1$ (Binärdarstellung von $e$)\\
+		$e=\limsum{i=0}{k}e_i\cdot 2^i$ wobei $e_k=1$ (Binärdarstellung von $e$)\\
 		$m^e=m^{\limsum{i=0}{k}e_i2^i}=m^{e_k2^k}\cdot m^{e_{k-1}2^{k-1}}\cdot ... \cdot m^{e_1\cdot 2}\cdot m^{e_0}$\\
 		$=\lrr{\lrr{m^2\cdot m^{e_{k-1}}}^2\cdot m^{e^{k-2}}}^2\cdot ...)^2\cdot m^{e_1})^2\cdot m^{e_0}$
 \newpage
@@ -502,8 +501,8 @@ bestimmen so dass $u\cdot e+v\cdot\varphi(n)=1$. Dann $d=u\mod\varphi(n)$.
 		\textbf{Fermat- Test:}\\
 		Sei $p$ Primzahl. $1\leq a\leq p-1$. Kleiner Satz von Fermat: $a^{p-1}\equiv 1(\mod p)$\\
 		Ist $n$ Primzahl oder nicht?\\
-		Wähle $1\leq a\leq n-1$. Test $a^{n-1}\equiv 1(\mod n)$.\\
-		Wenn nicht, so ist $n$ keine Primzahl. Wenn ja, so wähle neues $a$. $n$ ist Primzahl, falls der Test für alle $1\leq a\leq n-1$ erfüllt ist. Es gibt unendlich viele zusammengesetzte Zahlen $n$, die den Test für alle $1\leq a\leq n-1$ erfüllgen, mit $\ggT(a,n)=1$. (Carmichael- Zahlen)
+		Wähle $1\leq a\leq n-1$. Teste $a^{n-1}\equiv 1(\mod n)$.\\
+		Wenn nicht, so ist $n$ keine Primzahl. Wenn ja, so wähle neues $a$. $n$ ist Primzahl, falls der Test für alle $1\leq a\leq n-1$ erfüllt ist. Es gibt unendlich viele zusammengesetzte Zahlen $n$, die den Test für alle $1\leq a\leq n-1$ erfüllen, mit $\ggT(a,n)=1$. (Carmichael- Zahlen)
 
 		Verfeinerung des Tests: \textbf{Miller- Rabin- Test} (probabilistischer Test)\\
 		(es gibt einen deterministischen, polynominialen Primzahltest: AKS-Algorithmus)
@@ -520,7 +519,7 @@ bestimmen so dass $u\cdot e+v\cdot\varphi(n)=1$. Dann $d=u\mod\varphi(n)$.
 			\item Das Verfahren:
 				\begin{enumerate}[1.]
 					\item $A$ wählt zufällig $a\in\lrc{2,...,p-2}$, $x=g^a\mod p$, $A\ouset{\rightarrow}{x}{} B$
-					\item $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, $y=g^b\mod p$
+					\item $B$ wählt zufällig $b\in\lrc{2,...,p-2}$, $y=g^b\mod p$,
 						$B\ouset{\rightarrow}{y}{} A$
 					\item $A$ berechnet $y^a\mod p=K$, $B$ berechnet $x^b\mod p=K$.
 				\end{enumerate}
@@ -528,7 +527,7 @@ bestimmen so dass $u\cdot e+v\cdot\varphi(n)=1$. Dann $d=u\mod\varphi(n)$.
 				Dann gilt:\\
 				$y^a=\lrr{g^b}^a\mod p=g^{ab}$\\
 				$x^b=\lrr{g^a}^b\mod p=g^{ab}$
-			\item Sicherheit: Angreifer kennt $p,q$, $g^a\mod p$, $g^b\mod p$, möchte wissen $g^{ab}\mod p$ \textbf{Diffie-Hellman-Problem}
+			\item Sicherheit: Angreifer kennt $p,g$, $g^a\mod p$, $g^b\mod p$, möchte wissen $g^{ab}\mod p$ \textbf{Diffie-Hellman-Problem}
 
 				Bis heute einzige Lösung: Diskreter Logarithmus-Problem\\
 				Geg.: $g$, $p$ sowie $g^a\mod p$\\
@@ -559,11 +558,12 @@ bestimmen so dass $u\cdot e+v\cdot\varphi(n)=1$. Dann $d=u\mod\varphi(n)$.
 		\textbf{Geheimer Schlüssel:} $a$\\
 		\textbf{Verschlüsselung:} Klartextblock, $1\leq m\leq p-1$, $B\rightarrow A$.\\
 		$B$ wählt zufälliges $b\in\lrc{2,...,p-2}$ und berechnet $y=g^b\mod p$\\
-		$B$ berechnet $y=x^b\mod p$, $f=x^b\cdot m\mod p$ und sendet $(y,f)$ an $A$\\
+		$B$ berechnet $x^b\mod p$, $f=x^b\cdot m\mod p$ und sendet $(y,f)$ an $A$\\
 		\textbf{Entschlüsselung} durch $A$:\\
-		$y=g^b\mod p$, $f=x^b\mod p$\\
+		$y=g^b\mod p$, $f=x^b\cdot m\mod p$\\
 		$y^a\mod p=g^{ba}\mod p=x^b\mod p$\\
-		$\lrr{x^b}^{-1}\cdot f\mod p=m\mod p=m$\\
+		$\lrr{x^b}^{-1}\cdot f\mod p=m\mod p=m$
+		
 		$B$ muss bei jeder Verschlüsselung eines Blocks ein neues $b$ wählen.\\
 		$\lrr{x^b\cdot m_1\mod p,\ x^b\cdot m_2\mod p, \dots}\longrightarrow A$\\
 		Angenommen, Angreifer kennt $(m_1,f_1)$:\\
